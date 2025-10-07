@@ -1,0 +1,6 @@
+@TalyerStudio.Vehicle.API_HostAddress = http://localhost:5167
+
+GET {{TalyerStudio.Vehicle.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

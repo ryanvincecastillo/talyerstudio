@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalyerStudio - Auto & Motorcycle Shop Management System</title>
+    <meta name="description" content="The complete all-in-one management system for auto repair shops, motorcycle shops, car wash, and detailing centers in the Philippines.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+            --gradient-alt: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 2rem 100px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            top: -250px;
+            right: -250px;
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            bottom: -200px;
+            left: -200px;
+            border-radius: 50%;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content .highlight {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .highlight-alt {
+            background: var(--gradient-alt);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-auto {
+            background: rgba(37, 99, 235, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        .badge-moto {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--white);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .dashboard-mockup {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .mockup-content {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-height: 300px;
+        }
+
+        /* Shop Type Toggle */
+        .shop-type-section {
+            padding: 80px 2rem;
+            background: var(--white);
+        }
+
+        .shop-type-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .shop-type-toggle {
+            display: inline-flex;
+            background: var(--light);
+            border-radius: 12px;
+            padding: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .toggle-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .toggle-btn.active {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-btn.auto.active {
+            color: var(--primary);
+        }
+
+        .toggle-btn.moto.active {
+            color: var(--accent);
+        }
+
+        .shop-type-content {
+            display: none;
+        }
+
+        .shop-type-content.active {
+            display: block;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            text-align: left;
+            margin-top: 3rem;
+        }
+
+        .shop-feature {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .shop-feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .shop-feature-icon.auto {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+        }
+
+        .shop-feature-icon.moto {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+        }
+
+        .shop-feature-content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .shop-feature-content p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 2rem;
+            background: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        .features-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 16px;
+            background: var(--white);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            padding: 100px 2rem;
+            background: var(--white);
+        }
+
+        .use-cases-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .use-case-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            background: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .use-case-card:hover {
+            background: var(--white);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .use-case-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 100px 2rem;
+            background: var(--light);
+        }
+
+        .pricing-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 2px solid #e2e8f0;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(37, 99, 235, 0.15);
+            transform: scale(1.05);
+        }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient);
+            color: var(--white);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .plan-description {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 0.75rem 0;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 2rem;
+            background: var(--dark);
+        }
+
+        .testimonials-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            padding: 2rem;
+            border-radius: 16px;
+            background: var(--dark-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial-rating {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 2rem;
+            background: var(--gradient);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--primary);
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 2rem 30px;
+            background: var(--dark);
+            color: var(--gray);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            color: var(--white);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-links h4 {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .features-container,
+            .pricing-container,
+            .testimonials-container {
+                grid-template-columns: 1fr;
+            }
+
+            .shop-grid,
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu,
+            .nav-cta {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding: 120px 1.5rem 80px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .shop-type-toggle {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .toggle-btn {
+                width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">TalyerStudio</div>
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#use-cases">Use Cases</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="https://dashboard.talyerstudio.com/login" class="btn btn-secondary">Login</a>
+                <a href="https://dashboard.talyerstudio.com/signup" class="btn btn-primary">Start Free Trial</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content animate-fade-in">
+                <h1>Manage Your <span class="highlight">Auto</span> or <span class="highlight-alt">Motorcycle</span> Shop Like a Pro</h1>
+                <p>The complete all-in-one management system for auto repair shops, motorcycle shops, car wash, and detailing centers. Built specifically for the Philippine market.</p>
+                
+                <div class="hero-badges">
+                    <span class="badge badge-auto">🚗 Auto Shops</span>
+                    <span class="badge badge-moto">🏍️ Motorcycle Shops</span>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="https://dashboard.talyerstudio.com/signup" class="btn btn-primary">Start Free Trial</a>
+                    <a href="#use-cases" class="btn btn-secondary">Learn More</a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">800+</span>
+                        <span class="stat-label">Active Shops</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100K+</span>
+                        <span class="stat-label">Job Orders</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">₱80M+</span>
+                        <span class="stat-label">Processed</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="dashboard-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-dot dot-red"></div>
+                        <div class="mockup-dot dot-yellow"></div>
+                        <div class="mockup-dot dot-green"></div>
+                    </div>
+                    <div class="mockup-content">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <div style="background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%); padding: 1rem; border-radius: 8px; flex: 1; margin-right: 1rem;">
+                                <p style="color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 0.25rem;">Today's Revenue</p>
+                                <h3 style="color: white; font-size: 1.5rem; font-weight: 800;">₱52,840</h3>
+                            </div>
+                            <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; flex: 1;">
+                                <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.25rem;">Jobs Today</p>
+                                <h3 style="color: #0f172a; font-size: 1.5rem; font-weight: 800;">31</h3>
+                            </div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.5rem;">Recent Orders</p>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                                <span style="font-size: 0.85rem; font-weight: 600;">🚗 Oil Change + PMS</span>
+                                <span style="font-size: 0.85rem; color: #10b981; font-weight: 600;">Done</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                <span style="font-size: 0.85rem; font-weight: 600;">🏍️ Chain Cleaning</span>
+                                <span style="font-size: 0.85rem; color: #2563eb; font-weight: 600;">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Type Section -->
+    <section class="shop-type-section" id="use-cases">
+        <div class="shop-type-container">
+            <div class="section-header">
+                <span class="section-tag">FOR YOUR BUSINESS</span>
+                <h2>Built for Both Auto & Motorcycle Shops</h2>
+                <p>Whether you service cars, motorcycles, or both - we've got you covered</p>
+            </div>
+
+            <div class="shop-type-toggle">
+                <button class="toggle-btn auto active" onclick="switchShopType('auto')">
+                    🚗 Auto Shops
+                </button>
+                <button class="toggle-btn moto" onclick="switchShopType('moto')">
+                    🏍️ Motorcycle Shops
+                </button>
+            </div>
+
+            <!-- Auto Shop Content -->
+            <div id="auto-content" class="shop-type-content active">
+                <div class="shop-grid">
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon auto">🚗</div>
+                        <div class="shop-feature-content">
+                            <h3>Multi-Vehicle Support</h3>
+                            <p>Track cars, SUVs, vans, and trucks with detailed specs including engine type, displacement, and full service history.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon auto">🔧</div>
+                        <div class="shop-feature-content">
+                            <h3>Complete Repair Services</h3>
+                        <p>Manage everything from oil changes, brake services, engine diagnostics, transmission work, to full overhauls.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon auto">💦</div>
+                        <div class="shop-feature-content">
+                            <h3>Car Wash & Detailing</h3>
+                            <p>Integrated POS for quick wash services with membership packages, prepaid cards, and express checkout.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon auto">📦</div>
+                        <div class="shop-feature-content">
+                            <h3>Auto Parts Inventory</h3>
+                            <p>Track oils, filters, batteries, tires, brake pads, and all automotive parts with supplier management.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon auto">🎨</div>
+                        <div class="shop-feature-content">
+                            <h3>Paint & Body Work</h3>
+                            <p>Document paint jobs, body repairs, and restoration projects with before/after photo galleries.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon auto">📋</div>
+                        <div class="shop-feature-content">
+                            <h3>Fleet Management</h3>
+                            <p>Perfect for corporate clients with multiple vehicles. Track service schedules and maintenance contracts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motorcycle Shop Content -->
+            <div id="moto-content" class="shop-type-content">
+                <div class="shop-grid">
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon moto">🏍️</div>
+                        <div class="shop-feature-content">
+                            <h3>All Bike Types</h3>
+                            <p>Support for underbone, sport bikes, scooters, scramblers, and big bikes with displacement tracking (110cc to 1000cc+).</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon moto">⚙️</div>
+                        <div class="shop-feature-content">
+                            <h3>Quick Service Tracking</h3>
+                            <p>Fast job orders for oil changes, chain cleaning, tire changes, carburetor tuning, and FI cleaning.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon moto">🎨</div>
+                        <div class="shop-feature-content">
+                            <h3>Customization Projects</h3>
+                            <p>Track motorcycle modifications, custom paint jobs, accessory installations, and performance upgrades.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon moto">📦</div>
+                        <div class="shop-feature-content">
+                            <h3>Motorcycle Parts & Accessories</h3>
+                            <p>Manage chains, sprockets, brake pads, oils, filters, helmets, jackets, and aftermarket parts inventory.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon moto">📱</div>
+                        <div class="shop-feature-content">
+                            <h3>Delivery Rider Programs</h3>
+                            <p>Special packages for Grab, Foodpanda, and Lalamove riders with fleet tracking and priority service.</p>
+                        </div>
+                    </div>
+                    <div class="shop-feature">
+                        <div class="shop-feature-icon moto">🏁</div>
+                        <div class="shop-feature-content">
+                            <h3>Rider Club Integration</h3>
+                            <p>Manage club partnerships, group discounts, and special events for motorcycle riding communities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases">
+        <div class="section-header">
+            <span class="section-tag">USE CASES</span>
+            <h2>Perfect for Every Type of Shop</h2>
+            <p>From small neighborhood shops to multi-branch operations</p>
+        </div>
+        <div class="use-cases-grid">
+            <div class="use-case-card">
+                <div class="use-case-icon">🔧</div>
+                <h3>General Repair Shops</h3>
+                <p>Full-service auto or motorcycle repair with comprehensive job tracking</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">💦</div>
+                <h3>Car Wash Centers</h3>
+                <p>Quick service POS with membership cards and package deals</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">✨</div>
+                <h3>Detailing Studios</h3>
+                <p>Premium detailing services with before/after galleries</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">🏪</div>
+                <h3>Parts Retailers</h3>
+                <p>Sell parts with inventory management and service bays</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">🏢</div>
+                <h3>Dealership Service</h3>
+                <p>Authorized service centers for Honda, Yamaha, Toyota, etc.</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">🎨</div>
+                <h3>Customization Shops</h3>
+                <p>Track modifications, paint jobs, and performance upgrades</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">🚚</div>
+                <h3>Mobile Mechanics</h3>
+                <p>On-the-go service with mobile app and location tracking</p>
+            </div>
+            <div class="use-case-card">
+                <div class="use-case-icon">🏭</div>
+                <h3>Multi-Branch Operations</h3>
+                <p>Centralized management for multiple shop locations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-tag">FEATURES</span>
+            <h2>Everything You Need in One Platform</h2>
+            <p>Powerful features designed specifically for Filipino auto and motorcycle shops</p>
+        </div>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Customer Management</h3>
+                <p>Track customers with multiple vehicles, service history, preferences, and loyalty points.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚗</div>
+                <h3>Vehicle Registry</h3>
+                <p>Manage cars and motorcycles with complete specs, service intervals, and OR/CR tracking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Job Orders</h3>
+                <p>Create detailed work orders with photo documentation, mechanic assignments, and progress tracking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>Smart Inventory</h3>
+                <p>Track parts for both auto and motorcycle with low stock alerts and multi-branch support.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Point of Sale</h3>
+                <p>Fast checkout with GCash, Maya, cash, and card payments. Perfect for quick services.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h3>BIR-Compliant Invoicing</h3>
+                <p>Generate professional invoices with proper tax computation and official receipts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Appointment Booking</h3>
+                <p>Online booking with SMS reminders to reduce no-shows and optimize scheduling.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Analytics & Reports</h3>
+                <p>Business insights with sales reports, mechanic performance, and inventory analytics.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💌</div>
+                <h3>SMS Notifications</h3>
+                <p>Automated reminders via Semaphore for appointments, service due dates, and promos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Multi-Branch Ready</h3>
+                <p>Manage multiple locations with centralized reporting and stock transfers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🔧</div>
+                <h3>Staff Management</h3>
+                <p>Track mechanic performance, commissions, attendance, and assign jobs efficiently.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Apps</h3>
+                <p>Mechanic app for job updates and white-label customer app for bookings.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <span class="section-tag">PRICING</span>
+            <h2>Affordable Plans for Every Shop Size</h2>
+            <p>Start free, upgrade as you grow. All plans include 14-day free trial.</p>
+        </div>
+        <div class="pricing-container">
+            <div class="pricing-card">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">₱899<span>/month</span></div>
+                <p class="plan-description">Perfect for small shops getting started</p>
+                <ul class="plan-features">
+                    <li>1 branch location</li>
+                    <li>Up to 100 customers</li>
+                    <li>50 job orders per month</li>
+                    <li>Basic inventory (200 products)</li>
+                    <li>1 staff account</li>
+                    <li>Email support</li>
+                    <li>Mobile app access</li>
+                    <li>GCash/Maya payments</li>
+                </ul>
+                <a href="https://dashboard.talyerstudio.com/signup?plan=starter" class="btn btn-secondary" style="width: 100%; text-align: center;">Get Started</a>
+            </div>
+            <div class="pricing-card featured">
+                <span class="plan-badge">MOST POPULAR</span>
+                <div class="plan-name">Professional</div>
+                <div class="plan-price">₱2,199<span>/month</span></div>
+                <p class="plan-description">Best for growing auto or motorcycle shops</p>
+                <ul class="plan-features">
+                    <li>Up to 3 branches</li>
+                    <li>Unlimited customers & vehicles</li>
+                    <li>Unlimited job orders</li>
+                    <li>Full inventory management</li>
+                    <li>5 staff accounts</li>
+                    <li>SMS notifications (500 credits)</li>
+                    <li>Priority support</li>
+                    <li>Advanced reports</li>
+                    <li>Mobile apps access</li>
+                    <li>Customization tracking</li>
+                </ul>
+                <a href="https://dashboard.talyerstudio.com/signup?plan=professional" class="btn btn-primary" style="width: 100%; text-align: center;">Get Started</a>
+            </div>
+            <div class="pricing-card">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price">₱4,499<span>/month</span></div>
+                <p class="plan-description">For established multi-branch operations</p>
+                <ul class="plan-features">
+                    <li>Unlimited branches</li>
+                    <li>Unlimited everything</li>
+                    <li>10+ staff accounts</li>
+                    <li>SMS notifications (2000 credits)</li>
+                    <li>Advanced analytics & BI</li>
+                    <li>API access</li>
+                    <li>Custom branding</li>
+                    <li>Dedicated support</li>
+                    <li>White-label customer app</li>
+                    <li>Fleet management tools</li>
+                </ul>
+                <a href="https://dashboard.talyerstudio.com/signup?plan=enterprise" class="btn btn-secondary" style="width: 100%; text-align: center;">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <span class="section-tag" style="background: rgba(255, 255, 255, 0.1); color: var(--white);">TESTIMONIALS</span>
+            <h2 style="color: var(--white);">Loved by Shop Owners Across the Philippines</h2>
+            <p style="color: var(--gray);">See what our customers have to say about TalyerStudio</p>
+        </div>
+        <div class="testimonials-container">
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">"TalyerStudio transformed how we run our shop. We went from messy notebooks to a professional system. Our revenue increased by 40% in 3 months!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JM</div>
+                    <div class="author-info">
+                        <h4>Juan Mendoza</h4>
+                        <p>JM Auto Repair, Quezon City</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">"Perfect for my motorcycle shop! The quick service POS and chain cleaning tracking is exactly what I needed. My delivery rider customers love the fast checkout."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RC</div>
+                    <div class="author-info">
+                        <h4>Rico Cruz</h4>
+                        <p>SpeedWorks Moto, Mandaluyong</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">"Managing 3 branches was a nightmare before. Now I can see everything in real-time. The SMS reminders reduced no-shows by 60%. Best investment ever!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RS</div>
+                    <div class="author-info">
+                        <h4>Roberto Santos</h4>
+                        <p>RS Automotive Services, Cebu</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">"The car wash integration with GCash support is perfect. Customers are in and out fast. We process 50+ cars daily now. Highly recommended!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MC</div>
+                    <div class="author-info">
+                        <h4>Maria Cruz</h4>
+                        <p>SparkleWash Detailing, Manila</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">"As a motorcycle customization shop, tracking mods was always hard. TalyerStudio's photo documentation and parts tracking made our life so much easier!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">DL</div>
+                    <div class="author-info">
+                        <h4>Dennis Lopez</h4>
+                        <p>CustomRide Studio, Pasig</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">"We service both cars and motorcycles. TalyerStudio handles both perfectly. The inventory system for mixed parts is brilliant. One system for everything!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AB</div>
+                    <div class="author-info">
+                        <h4>Angelo Bautista</h4>
+                        <p>AllWheels Service Center, Davao</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Transform Your Shop?</h2>
+            <p>Join hundreds of successful auto and motorcycle shops already using TalyerStudio. Start your free 14-day trial today, no credit card required.</p>
+            <a href="https://dashboard.talyerstudio.com/signup" class="btn btn-white">Start Your Free Trial</a>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">✓ No credit card required  ✓ Setup in 5 minutes  ✓ Cancel anytime</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">TalyerStudio</div>
+                <p>The complete all-in-one management system for auto repair shops, motorcycle shops, car wash, and detailing centers in the Philippines.</p>
+                <div style="margin-top: 1.5rem;">
+                    <p><strong>Contact Us</strong></p>
+                    <p>Email: support@talyerstudio.com</p>
+                    <p>Phone: +63 917 123 4567</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="/mobile-apps">Mobile Apps</a></li>
+                    <li><a href="/integrations">Integrations</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/help">Help Center</a></li>
+                    <li><a href="/guides">Setup Guides</a></li>
+                    <li><a href="/api-docs">API Docs</a></li>
+                    <li><a href="/roadmap">Roadmap</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/careers">Careers</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TalyerStudio. All rights reserved. Made with ❤️ in the Philippines.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Shop type toggle
+        function switchShopType(type) {
+            // Update buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.toggle-btn.${type}`).classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.shop-type-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${type}-content`).classList.add('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        mobileMenuToggle.addEventListener('click', () => {
+            alert('Mobile menu coming soon! For now, please use the desktop version.');
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.feature-card, .pricing-card, .testimonial-card, .use-case-card, .shop-feature').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add staggered animation delays
+        document.querySelectorAll('.feature-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.pricing-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.15}s`;
+        });
+
+        document.querySelectorAll('.testimonial-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.use-case-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.08}s`;
+        });
+
+        // Console Easter egg
+        console.log('%c🚗🏍️ TalyerStudio', 'font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #2563eb 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;');
+        console.log('%cBuilt with ❤️ for Filipino auto & motorcycle shop owners', 'font-size: 14px; color: #64748b;');
+        console.log('%cInterested in joining our team? Email: careers@talyerstudio.com', 'font-size: 12px; color: #10b981;');
+    </script>
+</body>
+</html>
