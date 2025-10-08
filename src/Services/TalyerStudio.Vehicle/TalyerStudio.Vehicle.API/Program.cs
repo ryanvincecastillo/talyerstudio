@@ -8,6 +8,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Add gRPC Client for Customer Service
 builder.Services.AddGrpcClient<CustomerService.CustomerServiceClient>(options =>
 {
@@ -31,6 +42,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Use CORS (must be before UseAuthorization)
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 app.MapControllers();
