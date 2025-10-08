@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TalyerStudio.Customer.Infrastructure.Data;
-using TalyerStudio.Customer.Domain.Entities;
+using TalyerStudio.Customer.Application.Interfaces;
 using TalyerStudio.Shared.Contracts.Services;
 
 namespace TalyerStudio.Customer.API.Controllers;
@@ -10,12 +8,12 @@ namespace TalyerStudio.Customer.API.Controllers;
 [Route("api/[controller]")]
 public class ServicesController : ControllerBase
 {
-    private readonly CustomerDbContext _context;
+    private readonly IServiceService _serviceService;
     private readonly ILogger<ServicesController> _logger;
 
-    public ServicesController(CustomerDbContext context, ILogger<ServicesController> logger)
+    public ServicesController(IServiceService serviceService, ILogger<ServicesController> logger)
     {
-        _context = context;
+        _serviceService = serviceService;
         _logger = logger;
     }
 
@@ -24,245 +22,136 @@ public class ServicesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ServiceDto>>> GetServices(
         [FromQuery] Guid? categoryId = null,
         [FromQuery] string? applicability = null,
-        [FromQuery] bool? isActive = null)
+        [FromQuery] bool? isActive = null,
+        [FromQuery] int skip = 0,
+        [FromQuery] int take = 50)
     {
-        var query = _context.Services
-            .Include(s => s.Category)
-            .Where(s => s.DeletedAt == null);
-
-        // Filter by category
-        if (categoryId.HasValue)
+        try
         {
-            query = query.Where(s => s.CategoryId == categoryId.Value);
+            // TODO: Get tenantId from authenticated user context
+            var tenantId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+
+            var services = await _serviceService.GetAllAsync(tenantId, categoryId, applicability, isActive, skip, take);
+            return Ok(services);
         }
-
-        // Filter by applicability
-        if (!string.IsNullOrEmpty(applicability))
+        catch (Exception ex)
         {
-            if (Enum.TryParse<ServiceApplicability>(applicability, true, out var app))
-            {
-                query = query.Where(s => s.Applicability == app || s.Applicability == ServiceApplicability.BOTH);
-            }
+            _logger.LogError(ex, "Error retrieving services");
+            return StatusCode(500, new { message = "An error occurred while retrieving services" });
         }
-
-        // Filter by active status
-        if (isActive.HasValue)
-        {
-            query = query.Where(s => s.IsActive == isActive.Value);
-        }
-
-        var services = await query
-            .OrderBy(s => s.DisplayOrder)
-            .ThenBy(s => s.Name)
-            .ToListAsync();
-
-        var serviceDtos = services.Select(s => new ServiceDto
-        {
-            Id = s.Id,
-            TenantId = s.TenantId,
-            Name = s.Name,
-            Description = s.Description,
-            CategoryId = s.CategoryId,
-            CategoryName = s.Category?.Name,
-            BasePrice = s.BasePrice,
-            Currency = s.Currency,
-            Applicability = s.Applicability.ToString(),
-            EstimatedDurationMinutes = s.EstimatedDurationMinutes,
-            IsActive = s.IsActive,
-            DisplayOrder = s.DisplayOrder,
-            Icon = s.Icon,
-            CreatedAt = s.CreatedAt
-        }).ToList();
-
-        return Ok(serviceDtos);
     }
 
     // GET: api/services/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<ServiceDto>> GetService(Guid id)
     {
-        var service = await _context.Services
-            .Include(s => s.Category)
-            .FirstOrDefaultAsync(s => s.Id == id && s.DeletedAt == null);
-
-        if (service == null)
+        try
         {
-            return NotFound(new { message = "Service not found" });
+            var service = await _serviceService.GetByIdAsync(id);
+
+            if (service == null)
+            {
+                return NotFound(new { message = "Service not found" });
+            }
+
+            return Ok(service);
         }
-
-        var serviceDto = new ServiceDto
+        catch (Exception ex)
         {
-            Id = service.Id,
-            TenantId = service.TenantId,
-            Name = service.Name,
-            Description = service.Description,
-            CategoryId = service.CategoryId,
-            CategoryName = service.Category?.Name,
-            BasePrice = service.BasePrice,
-            Currency = service.Currency,
-            Applicability = service.Applicability.ToString(),
-            EstimatedDurationMinutes = service.EstimatedDurationMinutes,
-            IsActive = service.IsActive,
-            DisplayOrder = service.DisplayOrder,
-            Icon = service.Icon,
-            CreatedAt = service.CreatedAt
-        };
+            _logger.LogError(ex, "Error retrieving service {ServiceId}", id);
+            return StatusCode(500, new { message = "An error occurred while retrieving the service" });
+        }
+    }
 
-        return Ok(serviceDto);
+    // GET: api/services/category/{categoryId}
+    [HttpGet("category/{categoryId}")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetServicesByCategory(Guid categoryId)
+    {
+        try
+        {
+            var services = await _serviceService.GetByCategoryIdAsync(categoryId);
+            return Ok(services);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving services for category {CategoryId}", categoryId);
+            return StatusCode(500, new { message = "An error occurred while retrieving services" });
+        }
     }
 
     // POST: api/services
     [HttpPost]
     public async Task<ActionResult<ServiceDto>> CreateService(CreateServiceDto dto)
     {
-        // Validate category exists
-        var categoryExists = await _context.ServiceCategories
-            .AnyAsync(c => c.Id == dto.CategoryId && c.DeletedAt == null);
-
-        if (!categoryExists)
+        try
         {
-            return BadRequest(new { message = "Invalid category ID" });
+            // TODO: Get tenantId from authenticated user context
+            var tenantId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+
+            var service = await _serviceService.CreateAsync(dto, tenantId);
+            return CreatedAtAction(nameof(GetService), new { id = service.Id }, service);
         }
-
-        // Parse applicability
-        if (!Enum.TryParse<ServiceApplicability>(dto.Applicability, true, out var applicability))
+        catch (ArgumentException ex)
         {
-            return BadRequest(new { message = "Invalid applicability. Valid values: AUTO, MOTORCYCLE, BOTH" });
+            return BadRequest(new { message = ex.Message });
         }
-
-        // TODO: Get tenantId from authenticated user context
-        var tenantId = Guid.Parse("00000000-0000-0000-0000-000000000001");
-
-        var service = new Service
+        catch (Exception ex)
         {
-            Id = Guid.NewGuid(),
-            TenantId = tenantId,
-            Name = dto.Name,
-            Description = dto.Description,
-            CategoryId = dto.CategoryId,
-            BasePrice = dto.BasePrice,
-            Currency = "PHP",
-            Applicability = applicability,
-            EstimatedDurationMinutes = dto.EstimatedDurationMinutes,
-            IsActive = true,
-            DisplayOrder = dto.DisplayOrder,
-            Icon = dto.Icon,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-
-        _context.Services.Add(service);
-        await _context.SaveChangesAsync();
-
-        // Reload with category
-        service = await _context.Services
-            .Include(s => s.Category)
-            .FirstAsync(s => s.Id == service.Id);
-
-        var serviceDto = new ServiceDto
-        {
-            Id = service.Id,
-            TenantId = service.TenantId,
-            Name = service.Name,
-            Description = service.Description,
-            CategoryId = service.CategoryId,
-            CategoryName = service.Category?.Name,
-            BasePrice = service.BasePrice,
-            Currency = service.Currency,
-            Applicability = service.Applicability.ToString(),
-            EstimatedDurationMinutes = service.EstimatedDurationMinutes,
-            IsActive = service.IsActive,
-            DisplayOrder = service.DisplayOrder,
-            Icon = service.Icon,
-            CreatedAt = service.CreatedAt
-        };
-
-        return CreatedAtAction(nameof(GetService), new { id = service.Id }, serviceDto);
+            _logger.LogError(ex, "Error creating service");
+            return StatusCode(500, new { message = "An error occurred while creating the service" });
+        }
     }
 
     // PUT: api/services/{id}
     [HttpPut("{id}")]
     public async Task<ActionResult<ServiceDto>> UpdateService(Guid id, UpdateServiceDto dto)
     {
-        var service = await _context.Services
-            .Include(s => s.Category)
-            .FirstOrDefaultAsync(s => s.Id == id && s.DeletedAt == null);
-
-        if (service == null)
+        try
         {
-            return NotFound(new { message = "Service not found" });
+            var success = await _serviceService.UpdateAsync(id, dto);
+
+            if (!success)
+            {
+                return NotFound(new { message = "Service not found" });
+            }
+
+            var updatedService = await _serviceService.GetByIdAsync(id);
+            return Ok(updatedService);
         }
-
-        // Validate category exists
-        var categoryExists = await _context.ServiceCategories
-            .AnyAsync(c => c.Id == dto.CategoryId && c.DeletedAt == null);
-
-        if (!categoryExists)
+        catch (ArgumentException ex)
         {
-            return BadRequest(new { message = "Invalid category ID" });
+            return BadRequest(new { message = ex.Message });
         }
-
-        // Parse applicability
-        if (!Enum.TryParse<ServiceApplicability>(dto.Applicability, true, out var applicability))
+        catch (InvalidOperationException ex)
         {
-            return BadRequest(new { message = "Invalid applicability. Valid values: AUTO, MOTORCYCLE, BOTH" });
+            return BadRequest(new { message = ex.Message });
         }
-
-        service.Name = dto.Name;
-        service.Description = dto.Description;
-        service.CategoryId = dto.CategoryId;
-        service.BasePrice = dto.BasePrice;
-        service.Applicability = applicability;
-        service.EstimatedDurationMinutes = dto.EstimatedDurationMinutes;
-        service.IsActive = dto.IsActive;
-        service.DisplayOrder = dto.DisplayOrder;
-        service.Icon = dto.Icon;
-        service.UpdatedAt = DateTime.UtcNow;
-
-        await _context.SaveChangesAsync();
-
-        // Reload category
-        service = await _context.Services
-            .Include(s => s.Category)
-            .FirstAsync(s => s.Id == id);
-
-        var serviceDto = new ServiceDto
+        catch (Exception ex)
         {
-            Id = service.Id,
-            TenantId = service.TenantId,
-            Name = service.Name,
-            Description = service.Description,
-            CategoryId = service.CategoryId,
-            CategoryName = service.Category?.Name,
-            BasePrice = service.BasePrice,
-            Currency = service.Currency,
-            Applicability = service.Applicability.ToString(),
-            EstimatedDurationMinutes = service.EstimatedDurationMinutes,
-            IsActive = service.IsActive,
-            DisplayOrder = service.DisplayOrder,
-            Icon = service.Icon,
-            CreatedAt = service.CreatedAt
-        };
-
-        return Ok(serviceDto);
+            _logger.LogError(ex, "Error updating service {ServiceId}", id);
+            return StatusCode(500, new { message = "An error occurred while updating the service" });
+        }
     }
 
     // DELETE: api/services/{id}
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteService(Guid id)
     {
-        var service = await _context.Services
-            .FirstOrDefaultAsync(s => s.Id == id && s.DeletedAt == null);
-
-        if (service == null)
+        try
         {
-            return NotFound(new { message = "Service not found" });
+            var success = await _serviceService.DeleteAsync(id);
+
+            if (!success)
+            {
+                return NotFound(new { message = "Service not found" });
+            }
+
+            return NoContent();
         }
-
-        // Soft delete
-        service.DeletedAt = DateTime.UtcNow;
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting service {ServiceId}", id);
+            return StatusCode(500, new { message = "An error occurred while deleting the service" });
+        }
     }
 }

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TalyerStudio.Vehicle.Domain\TalyerStudio.Vehicle.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\TalyerStudio.Shared.Contracts\TalyerStudio.Shared.Contracts.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

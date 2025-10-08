@@ -1,14 +1,18 @@
-using TalyerStudio.Shared.Infrastructure.Grpc;
-using TalyerStudio.Vehicle.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Grpc.Net.Client;
+using TalyerStudio.Vehicle.Application.Interfaces;
+using TalyerStudio.Vehicle.Application.Services;
+using TalyerStudio.Vehicle.Infrastructure.Data;
+using TalyerStudio.Vehicle.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "TalyerStudio Vehicle API", Version = "v1" });
+});
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -21,22 +25,15 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add DbContext
+// Database
 builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add gRPC Client for Customer Service
-builder.Services.AddGrpcClient<CustomerService.CustomerServiceClient>(options =>
-{
-    options.Address = new Uri("http://localhost:5147");
-})
-.ConfigurePrimaryHttpMessageHandler(() =>
-{
-    var handler = new HttpClientHandler();
-    handler.ServerCertificateCustomValidationCallback = 
-        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-    return handler;
-});
+// Dependency Injection - Repositories
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+
+// Dependency Injection - Services
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var app = builder.Build();
 
@@ -48,6 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
