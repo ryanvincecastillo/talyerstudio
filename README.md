@@ -1,295 +1,326 @@
-# TalyerStudio - Auto & Motorcycle Shop Management System
-## 🎯 Project Journal & Task Master
+# 🚗 TalyerStudio - Auto Shop Management System
 
-> Complete all-in-one management system for auto repair shops, motorcycle shops, car wash, and detailing centers in the Philippines.
-
----
-
-## 📊 PROJECT STATUS OVERVIEW
-
-**Current Phase:** Month 1 - Foundation (MVP Development)  
-**Overall Progress:** ~72% of Month 1 Complete  
-**Target Launch:** End of Month 3  
-**Last Updated:** October 8, 2025
+**Status:** 🚀 Active Development (Month 1 - Week 4)  
+**Version:** 0.4.0 (Authentication Module Complete!)  
+**Target Launch:** December 2025
 
 ---
 
-## 🏗️ ARCHITECTURE
+## 📊 PROJECT OVERVIEW
 
-**Repository Strategy:** Monorepo with Microservices  
-**Backend:** .NET 8 (C#) with Clean Architecture  
-**Frontend:** React 18+ + TypeScript + TailwindCSS  
-**Database:** PostgreSQL 15  
-**Communication:** gRPC (internal) + REST (external)  
-**Infrastructure:** Docker Compose (local), Production TBD
+TalyerStudio is a comprehensive, cloud-based management system designed specifically for Filipino auto repair shops (talyer) and motorcycle shops. Built with modern technologies, it streamlines operations from customer management to invoicing, inventory, and appointments.
 
-### Current Services
-- ✅ Customer Service (API + gRPC) - COMPLETE
-- ✅ Vehicle Service (API) - COMPLETE
-- ✅ JobOrder Service (API) - COMPLETE
-- ✅ Inventory Service (API) - COMPLETE
-- ✅ Invoice Service (API) - COMPLETE ✨ NEW!
+### 🎯 Mission
+Empower small to medium-sized auto shops in the Philippines with affordable, easy-to-use software that helps them manage their business efficiently and grow sustainably.
+
+### 🌟 Core Value Proposition
+- **Affordable**: Subscription-based pricing starting at ₱999/month
+- **Easy to Use**: Intuitive interface designed for non-technical users
+- **Comprehensive**: All-in-one solution (no need for multiple tools)
+- **Philippines-Focused**: Built with Filipino shop owners in mind
 
 ---
 
-## 📅 MONTH 1: FOUNDATION (Days 1-30)
+## 🏗️ TECH STACK
 
-### ✅ Week 1: Infrastructure & Database (COMPLETED - 100%)
-- [x] Project structure setup (monorepo)
-- [x] Git repository initialized
-- [x] Docker Compose configuration (PostgreSQL, Redis, RabbitMQ)
-- [x] .NET 8 Solution file created
-- [x] Customer Service - Clean Architecture setup
-- [x] Shared libraries structure
-- [x] Database schema design
-- [x] EF Core migrations setup
-- [x] React Dashboard initialized
-- [x] TailwindCSS setup
+### Backend
+- **.NET 8** (Web API)
+- **PostgreSQL** (Database)
+- **Entity Framework Core** (ORM)
+- **Clean Architecture** (Domain-Driven Design)
+- **JWT Authentication** with Refresh Tokens
+- **BCrypt** for password hashing
 
-**Status:** ✅ 100% Complete
+### Frontend
+- **React 18** with **TypeScript**
+- **Vite** (Build tool)
+- **TailwindCSS** (Styling)
+- **React Router** (Navigation)
+- **Axios** (HTTP client)
+
+### Infrastructure
+- **Docker** & **Docker Compose**
+- **Redis** (Caching - planned)
+- **RabbitMQ** (Message Queue - planned)
+
+### External Services
+- **Semaphore** (SMS notifications - planned)
+- **SendGrid** (Email - planned)
+- **PayMongo** (Payments - planned)
 
 ---
 
-### ✅ Week 2: Core Modules (COMPLETED - 100%)
+## 📁 PROJECT STRUCTURE
 
-#### ✅ Customer Management Module (COMPLETE - 100%)
-- [x] Customer entity (domain model)
-- [x] CustomerDbContext setup
-- [x] Database migration
-- [x] Customer DTOs
-- [x] REST API endpoints (GET, POST, PUT, DELETE)
-- [x] Search/filter functionality
-- [x] Tested and working
+```
+talyerstudio/
+├── src/
+│   ├── Services/
+│   │   ├── TalyerStudio.Customer/        ✅ COMPLETE
+│   │   │   ├── Domain/
+│   │   │   ├── Application/
+│   │   │   ├── Infrastructure/
+│   │   │   └── API/
+│   │   ├── TalyerStudio.Vehicle/         ✅ COMPLETE
+│   │   ├── TalyerStudio.JobOrder/        ✅ COMPLETE
+│   │   ├── TalyerStudio.Inventory/       ✅ COMPLETE
+│   │   ├── TalyerStudio.Invoice/         ✅ COMPLETE
+│   │   └── TalyerStudio.Auth/            ✅ COMPLETE (NEW!)
+│   ├── Dashboard/                         🟡 30% COMPLETE
+│   │   └── talyerstudio-dashboard/
+│   └── TalyerStudio.sln
+├── docker/
+│   └── docker-compose.yml
+├── docs/
+│   └── index.html (Landing page)
+└── README.md
+```
 
-**Status:** ✅ 100% Complete
+---
 
-#### ✅ Vehicle Management Module (COMPLETE - 100%)
+## 🎯 FEATURE STATUS
+
+### ✅ COMPLETED FEATURES (Week 1-4)
+
+#### Customer Management Service ✅
+- [x] Customer entity (CRUD operations)
+- [x] Service Category entity (CRUD operations)
+- [x] Service entity (CRUD operations)
+- [x] Search and filter functionality
+- [x] Soft delete support
+- [x] Database: `talyerstudio_customers`
+- [x] Running on port **5146**
+
+#### Vehicle Management Service ✅
 - [x] Vehicle entity with AUTO/MOTORCYCLE support
-- [x] Motorcycle-specific fields
-- [x] Philippines-specific OR/CR tracking
+- [x] Motorcycle-specific fields (displacement, tire sizes)
+- [x] Philippines-specific OR/CR expiry tracking
 - [x] Full CRUD API with filters
-- [x] Database migration applied
-- [x] Tested and working
+- [x] Database: `talyerstudio_vehicles`
+- [x] Running on port **5167**
 
-**Status:** ✅ 100% Complete
+#### Service Catalog ✅
+- [x] Service categories with icons
+- [x] Service applicability (AUTO, MOTORCYCLE, BOTH)
+- [x] Display order support
+- [x] Filter by category and type
+- [x] Integrated with Customer Service
 
-#### ✅ Service Catalog Module (COMPLETE - 100%)
-- [x] Service and ServiceCategory entities
-- [x] Database migrations
-- [x] Full CRUD APIs
-- [x] Filtering by category and applicability
-- [x] Support for AUTO, MOTORCYCLE, and BOTH
-- [x] Pricing management
-- [x] Icon and display order support
-- [x] Tested and working
-
-**Status:** ✅ 100% Complete
-
----
-
-### ✅ Week 3: Job Orders & Inventory (COMPLETED - 100%) ✨
-
-#### ✅ Job Order Management Module (COMPLETE - 100%)
-- [x] JobOrder entity with full workflow support
-- [x] JobOrderItem entity (services)
-- [x] JobOrderPart entity (parts/products)
-- [x] Status workflow (PENDING → IN_PROGRESS → COMPLETED → INVOICED → CANCELLED)
-- [x] Priority levels (LOW, NORMAL, HIGH, URGENT)
-- [x] Clean Architecture implementation
-- [x] Repository pattern implementation
-- [x] REST API endpoints
-  - [x] GET /api/job-orders (list with filters)
-  - [x] GET /api/job-orders/{id} (details)
-  - [x] POST /api/job-orders (create)
-  - [x] PATCH /api/job-orders/{id}/status (update status)
-  - [x] POST /api/job-orders/{id}/assign (assign mechanics)
-  - [x] DELETE /api/job-orders/{id} (soft delete)
-  - [x] GET /api/job-orders/customer/{customerId} (by customer)
-  - [x] GET /api/job-orders/vehicle/{vehicleId} (by vehicle)
+#### Job Order Service ✅
+- [x] JobOrder, JobOrderItem, JobOrderPart entities
+- [x] Status workflow (PENDING → IN_PROGRESS → COMPLETED → INVOICED)
 - [x] Auto-generated job order numbers (JO-YYYYMMDD-####)
-- [x] Mechanic assignment support
-- [x] Odometer reading tracking
-- [x] Customer complaints and inspection notes
-- [x] Before/after photos support
-- [x] Estimated completion time
-- [x] Total amount calculation
-- [x] Multi-service support
-- [x] Parts/inventory integration
-- [x] Database: talyerstudio_joborders
-- [x] Running on port 5200
-- [x] Tested and working
+- [x] Full REST API with 8 endpoints
+- [x] Database: `talyerstudio_joborders`
+- [x] Running on port **5200**
 
-**Status:** ✅ 100% Complete
-
-#### ✅ Inventory Management Module (COMPLETE - 100%)
-- [x] Product entity
-- [x] ProductCategory entity
-- [x] StockLevel entity (per branch)
-- [x] StockMovement entity (audit trail)
-- [x] ProductType enum (PART, ACCESSORY, CHEMICAL, TIRE, BATTERY, etc.)
-- [x] StockMovementType enum (IN, OUT, ADJUSTMENT, TRANSFER)
-- [x] Clean Architecture implementation
-- [x] Repository pattern implementation
-- [x] REST API endpoints - Products
-  - [x] GET /api/products (list with filters)
-  - [x] GET /api/products/{id} (details)
-  - [x] POST /api/products (create)
-  - [x] PUT /api/products/{id} (update)
-  - [x] DELETE /api/products/{id} (soft delete)
-  - [x] GET /api/products/low-stock (alert system)
-- [x] REST API endpoints - Categories
-  - [x] GET /api/product-categories (list)
-  - [x] GET /api/product-categories/{id} (details)
-  - [x] POST /api/product-categories (create)
-  - [x] PUT /api/product-categories/{id} (update)
-  - [x] DELETE /api/product-categories/{id} (soft delete)
-- [x] REST API endpoints - Stock Management
-  - [x] GET /api/stock/product/{productId} (get stock levels)
-  - [x] POST /api/stock/product/{productId}/adjust (adjust stock)
-- [x] Stock movement tracking (IN, OUT, ADJUSTMENT, TRANSFER)
+#### Inventory Service ✅
+- [x] Product, ProductCategory, StockLevel, StockMovement entities
+- [x] Product types: PART, ACCESSORY, CHEMICAL, TIRE, BATTERY, etc.
+- [x] Multi-branch stock tracking
+- [x] Stock movement audit trail
+- [x] Low stock alert system
 - [x] SKU uniqueness validation
-- [x] Multi-branch stock support
-- [x] Reserved quantity tracking
-- [x] Reorder level alerts
-- [x] Supplier information
-- [x] Barcode support
-- [x] Search and filter by category, applicability, active status
-- [x] Cost price and selling price tracking
-- [x] Product images support
-- [x] Storage location tracking
-- [x] Initial stock setup on product creation
-- [x] Tested and working on port 5210
+- [x] Database: `talyerstudio_inventory`
+- [x] Running on port **5210**
 
-**Status:** ✅ 100% Complete
-
----
-
-### ✅ Week 4: Invoicing & Essential Features (IN PROGRESS - 50%)
-
-#### ✅ Invoice & Payment Module (COMPLETE - 100%)
-- [x] Invoice entity
-- [x] InvoiceItem entity
-- [x] Payment entity
-- [x] PaymentMethod enum (CASH, GCASH, PAYMAYA, BANK_TRANSFER, CHECK, CREDIT_CARD, DEBIT_CARD)
-- [x] PaymentStatus enum (PENDING, COMPLETED, FAILED, REFUNDED)
-- [x] InvoiceStatus enum (DRAFT, PENDING, PAID, PARTIALLY_PAID, OVERDUE, CANCELLED, VOID)
-- [x] Database migrations
-- [x] Clean Architecture implementation
-- [x] Repository pattern implementation
-- [x] REST API endpoints
-  - [x] POST /api/invoices (create invoice)
-  - [x] GET /api/invoices (list with pagination)
-  - [x] GET /api/invoices/{id} (details)
-  - [x] GET /api/invoices/number/{invoiceNumber} (get by invoice number)
-  - [x] GET /api/invoices/customer/{customerId} (get by customer)
-  - [x] GET /api/invoices/job-order/{jobOrderId} (get by job order)
-  - [x] DELETE /api/invoices/{id} (soft delete)
-  - [x] POST /api/payments (record payment)
-  - [x] GET /api/payments/invoice/{invoiceId} (get invoice with payments)
+#### Invoice & Payment Service ✅
+- [x] Invoice entity with customer/job order linking
+- [x] Invoice items with product details
+- [x] Payment recording with multiple payment methods
+- [x] Invoice status tracking (DRAFT, SENT, PAID, OVERDUE, CANCELLED)
 - [x] Auto-generated invoice numbers (INV-YYYYMMDD-####)
-- [x] Auto-generated payment numbers (PAY-YYYYMMDD-####)
-- [x] Payment tracking (full, partial payments)
-- [x] Automatic invoice status updates (PENDING → PARTIALLY_PAID → PAID)
-- [x] Tax calculation (12% VAT for Philippines)
-- [x] Discount support (per item and invoice level)
-- [x] Balance tracking
-- [x] Multi-payment method support
-- [x] Database: talyerstudio_invoices
-- [x] Running on port 5220
-- [x] All tests passed ✓
+- [x] Due date calculation
+- [x] Database: `talyerstudio_invoices`
+- [x] Running on port **5220**
+
+#### Authentication & Authorization Service ✅ **NEW!**
+- [x] User, Role, Permission entities
+- [x] JWT authentication with refresh tokens
+- [x] Password hashing with BCrypt
+- [x] Login/Register endpoints
+- [x] Token refresh endpoint
+- [x] Role-based access control (RBAC)
+- [x] Account lockout after failed attempts
+- [x] Multi-tenancy support
+- [x] Default roles seeding (Admin, User)
+- [x] Permission-based authorization
+- [x] Database: `talyerstudio_auth`
+- [x] Running on port **5230**
 
 **Status:** ✅ 100% Complete
 
-#### Authentication & Authorization
-- [ ] User entity
-- [ ] Role entity
-- [ ] Permission entity
-- [ ] Database migrations
-- [ ] JWT token generation
-- [ ] Refresh token implementation
-- [ ] Login endpoint (POST /api/auth/login)
-- [ ] Register endpoint (POST /api/auth/register)
-- [ ] Token refresh endpoint
-- [ ] Password reset flow
-- [ ] Role-based access control middleware
-- [ ] Dashboard login page
-- [ ] Dashboard authentication state management
+---
 
-**Status:** ⏳ 0% Complete - **CRITICAL FOR SECURITY**
+## 🔐 AUTHENTICATION DETAILS
 
-#### Dashboard Home Page
-- [ ] Revenue dashboard cards (today, week, month)
-- [ ] Recent job orders widget
-- [ ] Pending appointments widget
-- [ ] Low stock alerts widget
-- [ ] Quick actions buttons
-- [ ] Charts (revenue trends, service breakdown)
+### Available Endpoints
 
-**Status:** ⏳ 0% Complete
+**Base URL:** `http://localhost:5230/api/Auth`
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/register` | Register new user | No |
+| POST | `/login` | User login | No |
+| POST | `/refresh` | Refresh access token | No |
+| POST | `/revoke` | Revoke refresh token | No |
+| GET | `/me` | Get current user info | Yes |
+
+### Default Test Credentials
+
+**Tenant ID:** `00000000-0000-0000-0000-000000000001`
+
+You can register your own user or use any registered credentials.
+
+### Token Configuration
+
+- **Access Token Expiry:** 60 minutes
+- **Refresh Token Expiry:** 7 days
+- **Algorithm:** HS256
+- **Account Lockout:** After 5 failed attempts (30 min lockout)
+
+### Seeded Permissions
+
+The system comes with pre-configured permissions for:
+- Customers (view, create, edit, delete)
+- Vehicles (view, create, edit, delete)
+- Job Orders (view, create, edit, delete)
+- Inventory (view, create, edit, delete)
+- Invoices (view, create, edit, delete)
+- Users (view, create, edit, delete)
+
+### Default Roles
+
+- **Admin:** Full access to all permissions
+- **User:** View-only access to all modules
 
 ---
 
-## 📅 MONTH 2: ENHANCED FEATURES (Days 31-60)
+## 📅 CHANGELOG
 
-> Will be detailed when Month 1 is 80% complete
+### **October 8, 2025 - Authentication Module Complete! 🎉**
+- ✅ **Authentication Service COMPLETE**
+  - Created User, Role, Permission, RefreshToken entities
+  - Implemented JWT authentication with refresh tokens
+  - Added password hashing with BCrypt (cost factor 12)
+  - Implemented login/register endpoints
+  - Added token refresh and revoke endpoints
+  - Role-based access control (RBAC)
+  - Permission-based authorization
+  - Account lockout after 5 failed attempts
+  - Multi-tenancy support
+  - Repository pattern with clean architecture
+  - Database: talyerstudio_auth
+  - Running on port 5230
+  - All endpoints tested and working ✓
+  - Seeded default roles and permissions
 
-**Key Features Planned:**
-- POS/Cashier interface
-- Appointment scheduling
-- SMS notifications (Semaphore integration)
-- Advanced reporting
-- Staff management
-- Multi-branch support
+### **October 8, 2025 - Invoice & Payment Module Complete**
+- ✅ **Invoice Service COMPLETE**
+  - Created Invoice, InvoiceItem, Payment entities
+  - Multiple payment methods (CASH, CARD, BANK_TRANSFER, GCASH, MAYA, CHECK)
+  - Invoice status tracking (DRAFT, SENT, PAID, OVERDUE, CANCELLED)
+  - Auto-generated invoice numbers
+  - Full REST API with 11 endpoints
+  - Repository pattern with clean architecture
+  - Database: talyerstudio_invoices
+  - Running on port 5220
+  - All tests passed ✓
+
+**October 8, 2025 - Inventory Module Complete:**
+- ✅ Created Product, ProductCategory, StockLevel, StockMovement entities
+- ✅ Multi-branch stock tracking
+- ✅ Stock movement audit trail
+- ✅ Low stock alert system
+- ✅ Full REST API with 13 endpoints
+- ✅ Running on port 5210
+
+**October 8, 2025 - JobOrder Module Complete:**
+- ✅ Created JobOrder entities with status workflow
+- ✅ Auto-generated job order numbers
+- ✅ Full REST API with 8 endpoints
+- ✅ Running on port 5200
+
+**October 8, 2025 - Service Catalog Complete:**
+- ✅ Created Service and ServiceCategory entities
+- ✅ Support for AUTO, MOTORCYCLE, and BOTH service types
+- ✅ Full CRUD APIs
+
+**October 8, 2025 - Vehicle Module Complete:**
+- ✅ Created Vehicle entity with motorcycle support
+- ✅ Philippines-specific OR/CR tracking
+- ✅ Full CRUD API
+
+**October 8, 2025 - Customer Module Complete:**
+- ✅ Added UPDATE and DELETE endpoints
+- ✅ Added search/filter functionality
+
+**October 7, 2025:**
+- ✅ Created initial database migration
+- ✅ Implemented Customer REST API
+
+**October 6, 2025:**
+- ✅ Initialized project structure
+- ✅ Setup React dashboard
+
+### Known Issues
+- [ ] Dashboard needs authentication integration
+- [ ] No error handling middleware
+- [ ] Dashboard has no loading states
+- [ ] Docker Compose not updated with Auth database
+
+### Technical Debt
+- [ ] Add global exception handling
+- [ ] Add request/response logging
+- [ ] Add input validation with FluentValidation
+- [ ] Add API versioning
+- [ ] Add health check endpoints
+- [ ] Improve Swagger documentation
+- [ ] Update Docker Compose with all services
+- [ ] Secure all existing service endpoints with JWT
 
 ---
 
-## 📅 MONTH 3: POLISH & LAUNCH (Days 61-90)
+## 🎯 FOCUS AREAS THIS WEEK
 
-> Will be detailed when Month 2 is 80% complete
+### Week 4 Goals (October 9-15, 2025)
 
-**Key Milestones:**
-- Beta testing with 3-5 shops
-- Bug fixes and performance optimization
-- Landing page deployment
-- Public launch preparation
+**Primary Goals:**
+1. ✅ **Invoice & Payment Module (COMPLETE!)**
+2. ✅ **Authentication & Authorization Module (COMPLETE!)**
+3. ⏳ **Secure All Existing Endpoints**
+   - [ ] Add JWT authentication to Customer Service
+   - [ ] Add JWT authentication to Vehicle Service
+   - [ ] Add JWT authentication to JobOrder Service
+   - [ ] Add JWT authentication to Inventory Service
+   - [ ] Add JWT authentication to Invoice Service
+   
+4. ⏳ **Dashboard Authentication Integration**
+   - [ ] Create login page
+   - [ ] Implement auth context/provider
+   - [ ] Add protected routes
+   - [ ] Store tokens in localStorage
+   - [ ] Add token refresh logic
+   - [ ] Add logout functionality
 
----
-
-## 🎯 CURRENT SPRINT (Week 4 - Invoicing & Auth)
-
-### 🔥 IMMEDIATE NEXT TASKS (Priority Order)
-
-1. **Authentication Module** ⚡ CRITICAL
-   - [ ] Create User, Role, Permission entities
-   - [ ] Implement JWT authentication
-   - [ ] Add login/register endpoints
-   - [ ] Secure ALL existing endpoints
-
-2. **Dashboard UI Improvements** ⚡ MEDIUM PRIORITY
-   - [ ] Add vehicles to customer detail page
-   - [ ] Create service catalog page
-   - [ ] Create job orders list page
-   - [ ] Create inventory page
-   - [ ] Create invoice list page
-   - [ ] Add payment recording UI
-   - [ ] Add low stock alerts
-   - [ ] Improve navigation
-
-3. **Docker Configuration** ⚡ MEDIUM PRIORITY
-   - [ ] Update docker-compose.yml with all databases
-   - [ ] Add JobOrder database
-   - [ ] Add Inventory database
-   - [ ] Add Invoice database
+5. ⏳ **Update Docker Compose**
+   - [ ] Add Auth database
+   - [ ] Add all service databases
    - [ ] Test all services with Docker
+
+**Stretch Goals:**
+- Create dashboard pages for new modules
+- Add role-based UI rendering
+- Setup API error handling middleware
 
 ---
 
 ## 📈 PROGRESS TRACKER
 
-### Overall MVP Progress: 72%
+### Overall MVP Progress: 80%
 
 ```
-Month 1 Foundation:          ██████████████░░░░░░ 72%
+Month 1 Foundation:          ████████████████░░░░ 80%
 Month 2 Enhanced Features:   ░░░░░░░░░░░░░░░░░░░░  0%
 Month 3 Polish & Launch:     ░░░░░░░░░░░░░░░░░░░░  0%
 ```
@@ -306,8 +337,10 @@ Month 3 Polish & Launch:     ░░░░░░░░░░░░░░░░░
 | Job Orders                | ✅     | 100%     |
 | Inventory                 | ✅     | 100%     |
 | Invoicing                 | ✅     | 100%     |
-| Authentication            | ⏳     | 0%       |
+| **Authentication**        | ✅     | **100%** |
+| Secure Endpoints          | ⏳     | 0%       |
 | Dashboard UI              | 🟡     | 30%      |
+| Dashboard Auth            | ⏳     | 0%       |
 | POS System                | ⏳     | 0%       |
 | Appointments              | ⏳     | 0%       |
 | SMS Notifications         | ⏳     | 0%       |
@@ -332,8 +365,10 @@ Month 3 Polish & Launch:     ░░░░░░░░░░░░░░░░░
 - [x] Basic Inventory Management
 - [x] Invoice Generation
 - [x] Payment Recording
+- [x] **Authentication & Authorization** ✅
+- [ ] Secure all API endpoints
 - [ ] Dashboard (all core pages)
-- [ ] Authentication & Authorization
+- [ ] Dashboard authentication
 - [ ] Multi-tenancy (basic)
 
 #### Essential Features (Should Have)
@@ -361,159 +396,39 @@ docker-compose up -d
 # Run Customer Service
 cd src/Services/TalyerStudio.Customer/TalyerStudio.Customer.API
 dotnet run
-# Swagger: http://localhost:5146/swagger
-# gRPC: http://localhost:5147
+# API: http://localhost:5146/swagger
 
 # Run Vehicle Service
 cd src/Services/TalyerStudio.Vehicle/TalyerStudio.Vehicle.API
 dotnet run
-# Swagger: http://localhost:5167/swagger
+# API: http://localhost:5167/swagger
 
 # Run JobOrder Service
 cd src/Services/TalyerStudio.JobOrder/TalyerStudio.JobOrder.API
 dotnet run
-# Swagger: http://localhost:5200/swagger
+# API: http://localhost:5200/swagger
 
 # Run Inventory Service
 cd src/Services/TalyerStudio.Inventory/TalyerStudio.Inventory.API
 dotnet run
-# Swagger: http://localhost:5210/swagger
+# API: http://localhost:5210/swagger
 
 # Run Invoice Service
 cd src/Services/TalyerStudio.Invoice/TalyerStudio.Invoice.API
 dotnet run
-# Swagger: http://localhost:5220/swagger
+# API: http://localhost:5220/swagger
+
+# Run Auth Service (NEW!)
+cd src/Services/TalyerStudio.Auth/TalyerStudio.Auth.API
+dotnet run
+# API: http://localhost:5230/swagger
 
 # Run Dashboard
-cd src/Clients/talyerstudio-dashboard
+cd src/Dashboard/talyerstudio-dashboard
+npm install
 npm run dev
-# URL: http://localhost:5173
-
-# Database Migrations (Example - Customer Service)
-cd src/Services/TalyerStudio.Customer/TalyerStudio.Customer.Infrastructure
-dotnet ef migrations add MigrationName --startup-project ../TalyerStudio.Customer.API
-dotnet ef database update --startup-project ../TalyerStudio.Customer.API
+# Dashboard: http://localhost:5173
 ```
-
----
-
-## 📝 DEVELOPMENT NOTES
-
-### Recent Changes (Latest First)
-
-**October 8, 2025 - Invoice Service COMPLETE! 🎉**
-- ✅ **Invoice Service COMPLETE**
-  - Created Invoice, InvoiceItem, Payment entities
-  - Implemented status workflow (DRAFT → PENDING → PARTIALLY_PAID → PAID)
-  - Auto-generated invoice numbers (INV-YYYYMMDD-####)
-  - Auto-generated payment numbers (PAY-YYYYMMDD-####)
-  - Full REST API with 9 endpoints
-  - Repository pattern with clean architecture
-  - Tax calculation (12% VAT)
-  - Discount support (per item and invoice level)
-  - Payment tracking with automatic status updates
-  - Multi-payment method support (CASH, GCASH, PAYMAYA, etc.)
-  - Balance calculation
-  - Database: talyerstudio_invoices
-  - Running on port 5220
-  - All tests passed ✓
-
-**October 8, 2025 - Week 3 COMPLETE! 🎉**
-- ✅ **JobOrder Service COMPLETE**
-  - Created JobOrder, JobOrderItem, JobOrderPart entities
-  - Implemented status workflow (PENDING → IN_PROGRESS → COMPLETED → INVOICED)
-  - Auto-generated job order numbers (JO-YYYYMMDD-####)
-  - Full REST API with 8 endpoints
-  - Repository pattern with clean architecture
-  - Database: talyerstudio_joborders
-  - Running on port 5200
-  - All tests passed ✓
-
-- ✅ **Inventory Service COMPLETE**
-  - Created Product, ProductCategory, StockLevel, StockMovement entities
-  - Product types: PART, ACCESSORY, CHEMICAL, TIRE, BATTERY, etc.
-  - Multi-branch stock tracking
-  - Stock movement audit trail (IN, OUT, ADJUSTMENT)
-  - Low stock alert system
-  - SKU uniqueness validation
-  - Full REST API with 13 endpoints
-  - Repository pattern with clean architecture
-  - Database: talyerstudio_inventory
-  - Running on port 5210
-  - All tests passed ✓
-
-**October 8, 2025 - Service Catalog Complete:**
-- ✅ Created Service and ServiceCategory entities
-- ✅ Added database migrations
-- ✅ Implemented full CRUD APIs for both
-- ✅ Added filtering by category and applicability
-- ✅ Support for AUTO, MOTORCYCLE, and BOTH service types
-- ✅ Icon and display order support
-- ✅ Tested and working
-
-**October 8, 2025 - Vehicle Module Complete:**
-- ✅ Created Vehicle entity with AUTO/MOTORCYCLE support
-- ✅ Added motorcycle-specific fields (displacement, tire sizes)
-- ✅ Philippines-specific OR/CR expiry tracking
-- ✅ Full CRUD API with filters
-- ✅ Database migration applied
-- ✅ Tested and working
-
-**October 8, 2025 - Customer Module Complete:**
-- ✅ Added UPDATE endpoint (PUT /api/customers/{id})
-- ✅ Added DELETE endpoint (soft delete)
-- ✅ Added search/filter functionality
-- ✅ All endpoints tested and working
-
-**October 7, 2025:**
-- ✅ Created initial database migration
-- ✅ Implemented Customer REST API (GET, POST)
-- ✅ Setup CustomerDbContext with proper EF Core mapping
-- ✅ Created CustomerDto contracts
-
-**October 6, 2025:**
-- ✅ Initialized project structure (monorepo)
-- ✅ Created .NET solution with Customer Service
-- ✅ Setup React dashboard with Vite + TypeScript
-- ✅ Configured TailwindCSS
-
-### Known Issues
-- [ ] Authentication not implemented (all endpoints are public) - **CRITICAL**
-- [ ] No error handling middleware
-- [ ] Dashboard has no loading states
-- [ ] No tenant context (using hardcoded tenant ID)
-- [ ] Docker Compose not updated with new databases
-
-### Technical Debt
-- [ ] Add global exception handling
-- [ ] Add request/response logging
-- [ ] Add input validation with FluentValidation
-- [ ] Add API versioning
-- [ ] Add health check endpoints
-- [ ] Improve Swagger documentation
-- [ ] Implement proper tenant context
-- [ ] Add AutoMapper for DTO mapping
-- [ ] Update Docker Compose with all services
-
----
-
-## 🎯 FOCUS AREAS THIS WEEK
-
-### Week 4 Goals (October 9-15, 2025)
-
-**Primary Goals:**
-1. ✅ Invoice & Payment Module (COMPLETE!)
-2. ⏳ Authentication & Authorization Module
-3. ⏳ Update Docker Compose configuration
-4. ⏳ Secure all existing endpoints
-
-**Stretch Goals:**
-- Create invoices page in Dashboard
-- Create payment recording UI in Dashboard
-- Create job orders page in Dashboard
-- Create inventory page in Dashboard
-- Add low stock alerts widget
-- Setup API error handling middleware
 
 ---
 
@@ -525,6 +440,13 @@ dotnet ef database update --startup-project ../TalyerStudio.Customer.API
 - [gRPC Protos](./src/Shared/TalyerStudio.Shared.Infrastructure/Protos/)
 
 ### API Endpoints
+
+**Authentication Service (Port 5230):** ✨ NEW!
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/refresh
+- POST /api/auth/revoke
+- GET /api/auth/me (Protected)
 
 **Customer Service (Port 5146):**
 - GET/POST/PUT/DELETE /api/customers
@@ -551,7 +473,7 @@ dotnet ef database update --startup-project ../TalyerStudio.Customer.API
 - GET /api/stock/product/{productId}
 - POST /api/stock/product/{productId}/adjust
 
-**Invoice Service (Port 5220):** ✨ NEW!
+**Invoice Service (Port 5220):**
 - GET/POST/DELETE /api/invoices
 - GET /api/invoices/{id}
 - GET /api/invoices/number/{invoiceNumber}
@@ -560,19 +482,15 @@ dotnet ef database update --startup-project ../TalyerStudio.Customer.API
 - POST /api/payments
 - GET /api/payments/invoice/{invoiceId}
 
-### Database
+### Databases
 
 **Databases:**
 - `talyerstudio_customers` - Customer Service database
-  - Tables: customers, service_categories, services
 - `talyerstudio_vehicles` - Vehicle Service database
-  - Tables: vehicles
 - `talyerstudio_joborders` - JobOrder Service database
-  - Tables: job_orders, job_order_items, job_order_parts
 - `talyerstudio_inventory` - Inventory Service database
-  - Tables: products, product_categories, stock_levels, stock_movements
-- `talyerstudio_invoices` - Invoice Service database ✨ NEW!
-  - Tables: invoices, invoice_items, payments
+- `talyerstudio_invoices` - Invoice Service database
+- `talyerstudio_auth` - Authentication Service database ✨ NEW!
 
 ### External Links
 - [.NET 8 Documentation](https://learn.microsoft.com/en-us/dotnet/)
@@ -584,7 +502,7 @@ dotnet ef database update --startup-project ../TalyerStudio.Customer.API
 
 ## 👥 TEAM
 
-**Developer:** Ryan Vince Castillo
+**Developer:** Ryan Vince Castillo  
 **Designer:** TBD  
 **QA:** TBD
 
@@ -600,19 +518,23 @@ dotnet ef database update --startup-project ../TalyerStudio.Customer.API
 - Focus on customer value
 - Ship features, gather feedback, improve
 
-**Week 4 Achievement:** 🎉
-Invoice & Payment module completed with clean architecture! Auto-generated invoice numbers, payment tracking, tax calculations, and multi-payment support. Five major services now fully operational!
+**Week 4 Achievement:** 🎉🎉🎉
+**Authentication & Authorization module completed with JWT, refresh tokens, RBAC, and clean architecture!**
 
 ---
 
-## 📞 CONTACT
+## 📝 NOTES
 
-**Project:** TalyerStudio  
-**Location:** Magugpo Poblacion, Davao Region, PH  
-**Email:** support@talyerstudio.com (future)
+- All services are using Clean Architecture pattern
+- PostgreSQL is the primary database
+- JWT tokens expire after 60 minutes
+- Refresh tokens expire after 7 days
+- Account lockout occurs after 5 failed login attempts
+- All passwords are hashed using BCrypt with cost factor 12
+- Multi-tenancy is implemented at the database level
+- Default tenant ID for testing: `00000000-0000-0000-0000-000000000001`
 
 ---
 
-*Last updated: October 8, 2025*  
-*Version: 0.4.0-alpha*  
-*Status: Active Development - Week 4: 50% Complete (Invoice Service Done!)*
+**Last Updated:** October 8, 2025  
+**Next Review:** October 15, 2025
