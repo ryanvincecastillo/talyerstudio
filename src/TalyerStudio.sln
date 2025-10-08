@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Shared.Events"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Shared.Infrastructure", "Shared\TalyerStudio.Shared.Infrastructure\TalyerStudio.Shared.Infrastructure.csproj", "{B3B11EE0-5847-4199-939A-3051BA52ADE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Shared.Protos", "Shared\TalyerStudio.Shared.Protos\TalyerStudio.Shared.Protos.csproj", "{NEW-GUID-HERE}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TalyerStudio.Vehicle", "TalyerStudio.Vehicle", "{E5610DEA-3E3A-4456-9FB4-BBDA6C9DCC76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Vehicle.API", "Services\TalyerStudio.Vehicle\TalyerStudio.Vehicle.API\TalyerStudio.Vehicle.API.csproj", "{9BDE2102-D8E8-494A-8689-B2FC3F42D459}"

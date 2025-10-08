@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option csharp_namespace = "TalyerStudio.Shared.Protos.Vehicle";
+
+package vehicle;
+
+// Vehicle Service - gRPC Contract
+service VehicleService {
+  rpc GetVehicle (GetVehicleRequest) returns (VehicleResponse);
+  rpc GetVehicles (GetVehiclesRequest) returns (VehiclesResponse);
+  rpc GetVehiclesByCustomer (GetVehiclesByCustomerRequest) returns (VehiclesResponse);
+  rpc VehicleExists (VehicleExistsRequest) returns (VehicleExistsResponse);
+}
+
+message GetVehicleRequest {
+  string vehicle_id = 1;
+  string tenant_id = 2;
+}
+
+message GetVehiclesRequest {
+  string tenant_id = 1;
+  string customer_id = 2;
+  string search = 3;
+  int32 skip = 4;
+  int32 take = 5;
+}
+
+message GetVehiclesByCustomerRequest {
+  string customer_id = 1;
+  string tenant_id = 2;
+}
+
+message VehicleExistsRequest {
+  string vehicle_id = 1;
+  string tenant_id = 2;
+}
+
+message VehicleResponse {
+  string id = 1;
+  string tenant_id = 2;
+  string customer_id = 3;
+  string make = 4;
+  string model = 5;
+  int32 year = 6;
+  string color = 7;
+  string plate_number = 8;
+  string engine_number = 9;
+  string chassis_number = 10;
+  string vehicle_type = 11;
+  string vehicle_category = 12;
+  string displacement = 13;
+  string fuel_type = 14;
+  string transmission = 15;
+  int32 current_odometer = 16;
+}
+
+message VehiclesResponse {
+  repeated VehicleResponse vehicles = 1;
+  int32 total_count = 2;
+}
+
+message VehicleExistsResponse {
+  bool exists = 1;
+}

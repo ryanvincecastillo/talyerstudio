@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TalyerStudio.Vehicle.API.Services;
 using TalyerStudio.Vehicle.Application.Interfaces;
 using TalyerStudio.Vehicle.Application.Services;
 using TalyerStudio.Vehicle.Infrastructure.Data;
@@ -25,6 +26,9 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add gRPC
+builder.Services.AddGrpc();
+
 // Database
 builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -48,5 +52,11 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Map gRPC services
+app.MapGrpcService<VehicleGrpcService>();
+
+// Enable gRPC-Web for browser clients (optional)
+// app.UseGrpcWeb();
 
 app.Run();

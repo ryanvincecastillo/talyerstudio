@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option csharp_namespace = "TalyerStudio.Shared.Protos.Service";
+
+package service;
+
+// Service Catalog - gRPC Contract
+service ServiceCatalogService {
+  rpc GetService (GetServiceRequest) returns (ServiceResponse);
+  rpc GetServices (GetServicesRequest) returns (ServicesResponse);
+  rpc GetServicesByCategory (GetServicesByCategoryRequest) returns (ServicesResponse);
+}
+
+message GetServiceRequest {
+  string service_id = 1;
+  string tenant_id = 2;
+}
+
+message GetServicesRequest {
+  string tenant_id = 1;
+  string category_id = 2;
+  string applicability = 3;
+  bool is_active = 4;
+  int32 skip = 5;
+  int32 take = 6;
+}
+
+message GetServicesByCategoryRequest {
+  string category_id = 1;
+  string tenant_id = 2;
+}
+
+message ServiceResponse {
+  string id = 1;
+  string tenant_id = 2;
+  string name = 3;
+  string description = 4;
+  string category_id = 5;
+  string category_name = 6;
+  double base_price = 7;
+  string currency = 8;
+  string applicability = 9;
+  int32 estimated_duration_minutes = 10;
+  bool is_active = 11;
+}
+
+message ServicesResponse {
+  repeated ServiceResponse services = 1;
+  int32 total_count = 2;
+}

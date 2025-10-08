@@ -396,12 +396,12 @@ docker-compose up -d
 # Run Customer Service
 cd src/Services/TalyerStudio.Customer/TalyerStudio.Customer.API
 dotnet run
-# API: http://localhost:5146/swagger
+# API: http://localhost:5180/swagger
 
 # Run Vehicle Service
 cd src/Services/TalyerStudio.Vehicle/TalyerStudio.Vehicle.API
 dotnet run
-# API: http://localhost:5167/swagger
+# API: http://localhost:5190/swagger
 
 # Run JobOrder Service
 cd src/Services/TalyerStudio.JobOrder/TalyerStudio.JobOrder.API

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option csharp_namespace = "TalyerStudio.Shared.Protos.JobOrder";
+
+package joborder;
+
+// JobOrder Service - gRPC Contract
+service JobOrderService {
+  rpc GetJobOrder (GetJobOrderRequest) returns (JobOrderResponse);
+  rpc GetJobOrders (GetJobOrdersRequest) returns (JobOrdersResponse);
+  rpc GetJobOrdersByCustomer (GetJobOrdersByCustomerRequest) returns (JobOrdersResponse);
+  rpc GetJobOrdersByVehicle (GetJobOrdersByVehicleRequest) returns (JobOrdersResponse);
+}
+
+message GetJobOrderRequest {
+  string job_order_id = 1;
+  string tenant_id = 2;
+}
+
+message GetJobOrdersRequest {
+  string tenant_id = 1;
+  string status = 2;
+  int32 skip = 3;
+  int32 take = 4;
+}
+
+message GetJobOrdersByCustomerRequest {
+  string customer_id = 1;
+  string tenant_id = 2;
+}
+
+message GetJobOrdersByVehicleRequest {
+  string vehicle_id = 1;
+  string tenant_id = 2;
+}
+
+message JobOrderResponse {
+  string id = 1;
+  string job_order_number = 2;
+  string tenant_id = 3;
+  string customer_id = 4;
+  string vehicle_id = 5;
+  string status = 6;
+  string priority = 7;
+  int32 odometer_reading = 8;
+  string customer_complaints = 9;
+  double total_amount = 10;
+  double grand_total = 11;
+}
+
+message JobOrdersResponse {
+  repeated JobOrderResponse job_orders = 1;
+  int32 total_count = 2;
+}

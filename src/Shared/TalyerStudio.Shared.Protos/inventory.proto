@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option csharp_namespace = "TalyerStudio.Shared.Protos.Inventory";
+
+package inventory;
+
+// Inventory Service - gRPC Contract
+service InventoryService {
+  rpc GetProduct (GetProductRequest) returns (ProductResponse);
+  rpc GetProducts (GetProductsRequest) returns (ProductsResponse);
+  rpc CheckStock (CheckStockRequest) returns (CheckStockResponse);
+  rpc ReserveStock (ReserveStockRequest) returns (ReserveStockResponse);
+}
+
+message GetProductRequest {
+  string product_id = 1;
+  string tenant_id = 2;
+}
+
+message GetProductsRequest {
+  string tenant_id = 1;
+  string category_id = 2;
+  string search = 3;
+  int32 skip = 4;
+  int32 take = 5;
+}
+
+message CheckStockRequest {
+  string product_id = 1;
+  string tenant_id = 2;
+  string branch_id = 3;
+  int32 required_quantity = 4;
+}
+
+message ReserveStockRequest {
+  string product_id = 1;
+  string tenant_id = 2;
+  string branch_id = 3;
+  int32 quantity = 4;
+  string reference_type = 5;
+  string reference_id = 6;
+}
+
+message ProductResponse {
+  string id = 1;
+  string tenant_id = 2;
+  string sku = 3;
+  string name = 4;
+  string description = 5;
+  string category_id = 6;
+  double unit_price = 7;
+  string unit = 8;
+  int32 reorder_level = 9;
+  bool is_active = 10;
+}
+
+message ProductsResponse {
+  repeated ProductResponse products = 1;
+  int32 total_count = 2;
+}
+
+message CheckStockResponse {
+  bool available = 1;
+  int32 available_quantity = 2;
+}
+
+message ReserveStockResponse {
+  bool success = 1;
+  string message = 2;
+}

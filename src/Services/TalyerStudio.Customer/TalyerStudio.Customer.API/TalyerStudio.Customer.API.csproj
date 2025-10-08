@@ -25,6 +25,7 @@
     <ProjectReference Include="..\TalyerStudio.Customer.Infrastructure\TalyerStudio.Customer.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\Shared\TalyerStudio.Shared.Contracts\TalyerStudio.Shared.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Shared\TalyerStudio.Shared.Infrastructure\TalyerStudio.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Shared\TalyerStudio.Shared.Protos\TalyerStudio.Shared.Protos.csproj" />
   </ItemGroup>
 
 </Project>

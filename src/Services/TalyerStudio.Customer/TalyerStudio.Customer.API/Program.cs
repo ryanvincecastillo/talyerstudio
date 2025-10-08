@@ -59,5 +59,9 @@ app.MapControllers();
 
 // Map gRPC services
 app.MapGrpcService<CustomerGrpcService>();
+app.MapGrpcService<ServiceCatalogGrpcService>();
+
+// Enable gRPC-Web for browser clients (optional)
+// app.UseGrpcWeb();
 
 app.Run();

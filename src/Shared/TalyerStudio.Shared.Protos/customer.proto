@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option csharp_namespace = "TalyerStudio.Shared.Protos.Customer";
+
+package customer;
+
+// Customer Service - gRPC Contract
+service CustomerService {
+  rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc GetCustomers (GetCustomersRequest) returns (CustomersResponse);
+  rpc GetCustomersByIds (GetCustomersByIdsRequest) returns (CustomersResponse);
+  rpc CustomerExists (CustomerExistsRequest) returns (CustomerExistsResponse);
+}
+
+message GetCustomerRequest {
+  string customer_id = 1;
+  string tenant_id = 2;
+}
+
+message GetCustomersRequest {
+  string tenant_id = 1;
+  string search = 2;
+  string tag = 3;
+  int32 skip = 4;
+  int32 take = 5;
+}
+
+message GetCustomersByIdsRequest {
+  repeated string customer_ids = 1;
+  string tenant_id = 2;
+}
+
+message CustomerExistsRequest {
+  string customer_id = 1;
+  string tenant_id = 2;
+}
+
+message CustomerResponse {
+  string id = 1;
+  string tenant_id = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string email = 5;
+  string phone_number = 6;
+  string street = 7;
+  string barangay = 8;
+  string municipality = 9;
+  string province = 10;
+  string zip_code = 11;
+  int32 loyalty_points = 12;
+  string customer_type = 13;
+}
+
+message CustomersResponse {
+  repeated CustomerResponse customers = 1;
+  int32 total_count = 2;
+}
+
+message CustomerExistsResponse {
+  bool exists = 1;
+}
