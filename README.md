@@ -89,7 +89,7 @@ talyerstudio/
 - [x] Search and filter functionality
 - [x] Soft delete support
 - [x] Database: `talyerstudio_customers`
-- [x] Running on port **5146**
+- [x] Running on port **5180**
 
 #### Vehicle Management Service ✅
 - [x] Vehicle entity with AUTO/MOTORCYCLE support
@@ -97,7 +97,7 @@ talyerstudio/
 - [x] Philippines-specific OR/CR expiry tracking
 - [x] Full CRUD API with filters
 - [x] Database: `talyerstudio_vehicles`
-- [x] Running on port **5167**
+- [x] Running on port **5190**
 
 #### Service Catalog ✅
 - [x] Service categories with icons
@@ -448,12 +448,12 @@ npm run dev
 - POST /api/auth/revoke
 - GET /api/auth/me (Protected)
 
-**Customer Service (Port 5146):**
+**Customer Service (Port 5180):**
 - GET/POST/PUT/DELETE /api/customers
 - GET/POST/PUT/DELETE /api/servicecategories
 - GET/POST/PUT/DELETE /api/services
 
-**Vehicle Service (Port 5167):**
+**Vehicle Service (Port 5190):**
 - GET/POST/PUT/DELETE /api/vehicles
 - GET /api/vehicles/customer/{customerId}
 

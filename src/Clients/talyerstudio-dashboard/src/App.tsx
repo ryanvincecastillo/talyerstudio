@@ -19,7 +19,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('http://localhost:5146/api/customers')
+    fetch('http://localhost:5180/api/customers')
       .then(res => res.json())
       .then(data => {
         setCustomers(data)

@@ -58,13 +58,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=talyerstudio_customers;Username=postgres;Password=postgres
-      - Kestrel__Endpoints__Http__Url=http://+:5146
+      - Kestrel__Endpoints__Http__Url=http://+:5180
       - Kestrel__Endpoints__Http__Protocols=Http1AndHttp2
-      - Kestrel__Endpoints__Grpc__Url=http://+:5147
+      - Kestrel__Endpoints__Grpc__Url=http://+:5182
       - Kestrel__Endpoints__Grpc__Protocols=Http2
     ports:
-      - "5146:5146"
-      - "5147:5147"
+      - "5180:5180"
+      - "5182:5182"
     depends_on:
       postgres:
         condition: service_healthy
@@ -78,9 +78,9 @@ services:
     container_name: talyerstudio-vehicle-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5167
+      - ASPNETCORE_URLS=http://+:5190
     ports:
-      - "5167:5167"
+      - "5190:5190"
     depends_on:
       - customer-service
     networks:
