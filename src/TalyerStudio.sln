@@ -53,6 +53,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Inventory.Infr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Inventory.API", "Services\TalyerStudio.Inventory\TalyerStudio.Inventory.API\TalyerStudio.Inventory.API.csproj", "{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TalyerStudio.Invoice", "TalyerStudio.Invoice", "{B13B32DC-FAF9-494E-B285-577D7E8AAC04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Invoice.Domain", "Services\TalyerStudio.Invoice\TalyerStudio.Invoice.Domain\TalyerStudio.Invoice.Domain.csproj", "{0ED3B1BB-2F5E-40D6-90EA-B9B44A8466B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Invoice.Application", "Services\TalyerStudio.Invoice\TalyerStudio.Invoice.Application\TalyerStudio.Invoice.Application.csproj", "{C2C0D450-56B6-4E68-AC74-9877B7381E19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Invoice.Infrastructure", "Services\TalyerStudio.Invoice\TalyerStudio.Invoice.Infrastructure\TalyerStudio.Invoice.Infrastructure.csproj", "{0B797586-A47F-4658-9139-3C1B2499BF6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Invoice.API", "Services\TalyerStudio.Invoice\TalyerStudio.Invoice.API\TalyerStudio.Invoice.API.csproj", "{BB9A146F-99B3-4C91-9027-CED01A1FCA2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +148,22 @@ Global
 		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ED3B1BB-2F5E-40D6-90EA-B9B44A8466B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ED3B1BB-2F5E-40D6-90EA-B9B44A8466B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ED3B1BB-2F5E-40D6-90EA-B9B44A8466B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ED3B1BB-2F5E-40D6-90EA-B9B44A8466B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C0D450-56B6-4E68-AC74-9877B7381E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C0D450-56B6-4E68-AC74-9877B7381E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C0D450-56B6-4E68-AC74-9877B7381E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C0D450-56B6-4E68-AC74-9877B7381E19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B797586-A47F-4658-9139-3C1B2499BF6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B797586-A47F-4658-9139-3C1B2499BF6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B797586-A47F-4658-9139-3C1B2499BF6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B797586-A47F-4658-9139-3C1B2499BF6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB9A146F-99B3-4C91-9027-CED01A1FCA2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB9A146F-99B3-4C91-9027-CED01A1FCA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB9A146F-99B3-4C91-9027-CED01A1FCA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB9A146F-99B3-4C91-9027-CED01A1FCA2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{03CCACFC-C118-44EC-A59D-931D9D42BAEA} = {003BB524-9761-46A1-93F3-2AAE8A947877}
@@ -163,5 +189,10 @@ Global
 		{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
 		{9B78E76F-FDB3-4275-8770-A65A997A6BB5} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
 		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
+		{B13B32DC-FAF9-494E-B285-577D7E8AAC04} = {003BB524-9761-46A1-93F3-2AAE8A947877}
+		{0ED3B1BB-2F5E-40D6-90EA-B9B44A8466B8} = {B13B32DC-FAF9-494E-B285-577D7E8AAC04}
+		{C2C0D450-56B6-4E68-AC74-9877B7381E19} = {B13B32DC-FAF9-494E-B285-577D7E8AAC04}
+		{0B797586-A47F-4658-9139-3C1B2499BF6C} = {B13B32DC-FAF9-494E-B285-577D7E8AAC04}
+		{BB9A146F-99B3-4C91-9027-CED01A1FCA2C} = {B13B32DC-FAF9-494E-B285-577D7E8AAC04}
 	EndGlobalSection
 EndGlobal

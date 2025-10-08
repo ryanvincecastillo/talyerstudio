@@ -1,0 +1,6 @@
+@TalyerStudio.Invoice.API_HostAddress = http://localhost:5159
+
+GET {{TalyerStudio.Invoice.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
