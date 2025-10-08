@@ -1,4 +1,6 @@
 using TalyerStudio.Shared.Infrastructure.Grpc;
+using TalyerStudio.Vehicle.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Grpc.Net.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,16 +21,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add DbContext
+builder.Services.AddDbContext<VehicleDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Add gRPC Client for Customer Service
 builder.Services.AddGrpcClient<CustomerService.CustomerServiceClient>(options =>
 {
-    // Use dedicated gRPC port
     options.Address = new Uri("http://localhost:5147");
 })
 .ConfigurePrimaryHttpMessageHandler(() =>
 {
     var handler = new HttpClientHandler();
-    // For development only - allows HTTP/2 without TLS
     handler.ServerCertificateCustomValidationCallback = 
         HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
     return handler;
@@ -43,9 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Use CORS (must be before UseAuthorization)
 app.UseCors("AllowAll");
-
 app.UseAuthorization();
 app.MapControllers();
 

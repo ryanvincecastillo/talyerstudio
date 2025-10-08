@@ -18,11 +18,31 @@ public class CustomersController : ControllerBase
         _logger = logger;
     }
 
+    // GET: api/customers
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers()
+    public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers(
+        [FromQuery] string? search = null,
+        [FromQuery] string? tag = null)
     {
-        var customers = await _context.Customers
-            .Where(c => c.DeletedAt == null)
+        var query = _context.Customers.Where(c => c.DeletedAt == null);
+
+        // Search by name, email, or phone
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(c => 
+                c.FirstName.Contains(search) ||
+                c.LastName.Contains(search) ||
+                c.Email.Contains(search) ||
+                c.PhoneNumber.Contains(search));
+        }
+
+        // Filter by tag
+        if (!string.IsNullOrEmpty(tag))
+        {
+            query = query.Where(c => c.Tags.Contains(tag));
+        }
+
+        var customers = await query
             .OrderByDescending(c => c.CreatedAt)
             .Take(50)
             .ToListAsync();
@@ -51,6 +71,7 @@ public class CustomersController : ControllerBase
         return Ok(customerDtos);
     }
 
+    // GET: api/customers/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<CustomerDto>> GetCustomer(Guid id)
     {
@@ -59,7 +80,7 @@ public class CustomersController : ControllerBase
 
         if (customer == null)
         {
-            return NotFound();
+            return NotFound(new { message = "Customer not found" });
         }
 
         var customerDto = new CustomerDto
@@ -86,6 +107,7 @@ public class CustomersController : ControllerBase
         return Ok(customerDto);
     }
 
+    // POST: api/customers
     [HttpPost]
     public async Task<ActionResult<CustomerDto>> CreateCustomer(CreateCustomerDto dto)
     {
@@ -136,5 +158,78 @@ public class CustomersController : ControllerBase
         };
 
         return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customerDto);
+    }
+
+    // PUT: api/customers/{id}
+    [HttpPut("{id}")]
+    public async Task<ActionResult<CustomerDto>> UpdateCustomer(Guid id, UpdateCustomerDto dto)
+    {
+        var customer = await _context.Customers
+            .FirstOrDefaultAsync(c => c.Id == id && c.DeletedAt == null);
+
+        if (customer == null)
+        {
+            return NotFound(new { message = "Customer not found" });
+        }
+
+        // Update fields
+        customer.FirstName = dto.FirstName;
+        customer.LastName = dto.LastName;
+        customer.Email = dto.Email;
+        customer.PhoneNumber = dto.PhoneNumber;
+        customer.Street = dto.Street;
+        customer.Barangay = dto.Barangay;
+        customer.Municipality = dto.Municipality;
+        customer.Province = dto.Province;
+        customer.ZipCode = dto.ZipCode;
+        customer.Birthday = dto.Birthday;
+        customer.CustomerType = dto.CustomerType;
+        customer.Tags = dto.Tags;
+        customer.Notes = dto.Notes;
+        customer.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        var customerDto = new CustomerDto
+        {
+            Id = customer.Id,
+            TenantId = customer.TenantId,
+            FirstName = customer.FirstName,
+            LastName = customer.LastName,
+            Email = customer.Email,
+            PhoneNumber = customer.PhoneNumber,
+            Street = customer.Street,
+            Barangay = customer.Barangay,
+            Municipality = customer.Municipality,
+            Province = customer.Province,
+            ZipCode = customer.ZipCode,
+            Birthday = customer.Birthday,
+            LoyaltyPoints = customer.LoyaltyPoints,
+            CustomerType = customer.CustomerType,
+            Tags = customer.Tags,
+            Notes = customer.Notes,
+            CreatedAt = customer.CreatedAt
+        };
+
+        return Ok(customerDto);
+    }
+
+    // DELETE: api/customers/{id}
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteCustomer(Guid id)
+    {
+        var customer = await _context.Customers
+            .FirstOrDefaultAsync(c => c.Id == id && c.DeletedAt == null);
+
+        if (customer == null)
+        {
+            return NotFound(new { message = "Customer not found" });
+        }
+
+        // Soft delete
+        customer.DeletedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }

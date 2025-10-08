@@ -11,6 +11,8 @@ public class CustomerDbContext : DbContext
     }
 
     public DbSet<Domain.Entities.Customer> Customers { get; set; }
+    public DbSet<ServiceCategory> ServiceCategories { get; set; }
+    public DbSet<Service> Services { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -109,6 +111,149 @@ public class CustomerDbContext : DbContext
             
             entity.HasIndex(e => e.Email)
                 .HasDatabaseName("idx_customers_email");
+        });
+        
+         // ServiceCategory configuration
+        modelBuilder.Entity<ServiceCategory>(entity =>
+        {
+            entity.ToTable("service_categories");
+            
+            entity.HasKey(e => e.Id);
+            
+            entity.Property(e => e.Id)
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd();
+            
+            entity.Property(e => e.TenantId)
+                .HasColumnName("tenant_id")
+                .IsRequired();
+            
+            entity.Property(e => e.Name)
+                .HasColumnName("name")
+                .HasMaxLength(100)
+                .IsRequired();
+            
+            entity.Property(e => e.Description)
+                .HasColumnName("description")
+                .HasMaxLength(500);
+            
+            entity.Property(e => e.DisplayOrder)
+                .HasColumnName("display_order")
+                .HasDefaultValue(0);
+            
+            entity.Property(e => e.Icon)
+                .HasColumnName("icon")
+                .HasMaxLength(50);
+            
+            entity.Property(e => e.Color)
+                .HasColumnName("color")
+                .HasMaxLength(20);
+            
+            entity.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true);
+            
+            entity.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("NOW()");
+            
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnName("updated_at")
+                .HasDefaultValueSql("NOW()");
+            
+            entity.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
+
+            // Indexes
+            entity.HasIndex(e => e.TenantId)
+                .HasDatabaseName("idx_service_categories_tenant_id");
+        });
+
+        // Service configuration
+        modelBuilder.Entity<Service>(entity =>
+        {
+            entity.ToTable("services");
+            
+            entity.HasKey(e => e.Id);
+            
+            entity.Property(e => e.Id)
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd();
+            
+            entity.Property(e => e.TenantId)
+                .HasColumnName("tenant_id")
+                .IsRequired();
+            
+            entity.Property(e => e.Name)
+                .HasColumnName("name")
+                .HasMaxLength(200)
+                .IsRequired();
+            
+            entity.Property(e => e.Description)
+                .HasColumnName("description")
+                .HasMaxLength(1000);
+            
+            entity.Property(e => e.CategoryId)
+                .HasColumnName("category_id")
+                .IsRequired();
+            
+            entity.Property(e => e.BasePrice)
+                .HasColumnName("base_price")
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
+            
+            entity.Property(e => e.Currency)
+                .HasColumnName("currency")
+                .HasMaxLength(3)
+                .HasDefaultValue("PHP");
+            
+            entity.Property(e => e.Applicability)
+                .HasColumnName("applicability")
+                .HasConversion<string>()
+                .HasMaxLength(20)
+                .HasDefaultValue(ServiceApplicability.BOTH);
+            
+            entity.Property(e => e.EstimatedDurationMinutes)
+                .HasColumnName("estimated_duration_minutes");
+            
+            entity.Property(e => e.IsActive)
+                .HasColumnName("is_active")
+                .HasDefaultValue(true);
+            
+            entity.Property(e => e.DisplayOrder)
+                .HasColumnName("display_order")
+                .HasDefaultValue(0);
+            
+            entity.Property(e => e.Icon)
+                .HasColumnName("icon")
+                .HasMaxLength(50);
+            
+            entity.Property(e => e.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("NOW()");
+            
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnName("updated_at")
+                .HasDefaultValueSql("NOW()");
+            
+            entity.Property(e => e.DeletedAt)
+                .HasColumnName("deleted_at");
+
+            // Relationships
+            entity.HasOne(e => e.Category)
+                .WithMany(c => c.Services)
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Indexes
+            entity.HasIndex(e => e.TenantId)
+                .HasDatabaseName("idx_services_tenant_id");
+            
+            entity.HasIndex(e => e.CategoryId)
+                .HasDatabaseName("idx_services_category_id");
+            
+            entity.HasIndex(e => e.IsActive)
+                .HasDatabaseName("idx_services_is_active");
         });
     }
 }
