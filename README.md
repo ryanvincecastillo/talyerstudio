@@ -492,9 +492,9 @@ dotnet ef database update --startup-project ../TalyerStudio.Customer.API
 
 ## 👥 TEAM
 
-**Developer:** Solo Developer (You)  
+**Developer:** Ryan Vince Castillo
 **Designer:** TBD  
-**QA:** TBD (You, for now)
+**QA:** TBD
 
 ---
 
