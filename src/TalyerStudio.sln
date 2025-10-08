@@ -33,6 +33,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Vehicle.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Vehicle.Infrastructure", "Services\TalyerStudio.Vehicle\TalyerStudio.Vehicle.Infrastructure\TalyerStudio.Vehicle.Infrastructure.csproj", "{A56CF4C8-C840-43FC-A309-1702AA8C8873}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TalyerStudio.JobOrder", "TalyerStudio.JobOrder", "{303693A3-8955-48CE-A87E-824ABCA09153}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.JobOrder.Domain", "Services\TalyerStudio.JobOrder\TalyerStudio.JobOrder.Domain\TalyerStudio.JobOrder.Domain.csproj", "{279D6E24-7CA1-4098-B1EB-A61F20F1CADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.JobOrder.Application", "Services\TalyerStudio.JobOrder\TalyerStudio.JobOrder.Application\TalyerStudio.JobOrder.Application.csproj", "{2C454904-96C2-43C2-AE5E-1875CB955810}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.JobOrder.Infrastructure", "Services\TalyerStudio.JobOrder\TalyerStudio.JobOrder.Infrastructure\TalyerStudio.JobOrder.Infrastructure.csproj", "{84B9F2D2-3AF4-47A5-9381-16C35778DBDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.JobOrder.API", "Services\TalyerStudio.JobOrder\TalyerStudio.JobOrder.API\TalyerStudio.JobOrder.API.csproj", "{526CB4A4-CD2D-43F2-86F4-DFDFF8DAEC6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TalyerStudio.Inventory", "TalyerStudio.Inventory", "{A7D576D9-8B4A-4C5F-A798-425BD6881906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Inventory.Domain", "Services\TalyerStudio.Inventory\TalyerStudio.Inventory.Domain\TalyerStudio.Inventory.Domain.csproj", "{89993A6D-FDBF-4214-84C2-BFF5C2D1EB95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Inventory.Application", "Services\TalyerStudio.Inventory\TalyerStudio.Inventory.Application\TalyerStudio.Inventory.Application.csproj", "{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Inventory.Infrastructure", "Services\TalyerStudio.Inventory\TalyerStudio.Inventory.Infrastructure\TalyerStudio.Inventory.Infrastructure.csproj", "{9B78E76F-FDB3-4275-8770-A65A997A6BB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalyerStudio.Inventory.API", "Services\TalyerStudio.Inventory\TalyerStudio.Inventory.API\TalyerStudio.Inventory.API.csproj", "{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +106,38 @@ Global
 		{A56CF4C8-C840-43FC-A309-1702AA8C8873}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A56CF4C8-C840-43FC-A309-1702AA8C8873}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A56CF4C8-C840-43FC-A309-1702AA8C8873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{279D6E24-7CA1-4098-B1EB-A61F20F1CADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279D6E24-7CA1-4098-B1EB-A61F20F1CADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279D6E24-7CA1-4098-B1EB-A61F20F1CADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279D6E24-7CA1-4098-B1EB-A61F20F1CADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C454904-96C2-43C2-AE5E-1875CB955810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C454904-96C2-43C2-AE5E-1875CB955810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C454904-96C2-43C2-AE5E-1875CB955810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C454904-96C2-43C2-AE5E-1875CB955810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84B9F2D2-3AF4-47A5-9381-16C35778DBDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B9F2D2-3AF4-47A5-9381-16C35778DBDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B9F2D2-3AF4-47A5-9381-16C35778DBDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B9F2D2-3AF4-47A5-9381-16C35778DBDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526CB4A4-CD2D-43F2-86F4-DFDFF8DAEC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526CB4A4-CD2D-43F2-86F4-DFDFF8DAEC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526CB4A4-CD2D-43F2-86F4-DFDFF8DAEC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526CB4A4-CD2D-43F2-86F4-DFDFF8DAEC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89993A6D-FDBF-4214-84C2-BFF5C2D1EB95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89993A6D-FDBF-4214-84C2-BFF5C2D1EB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89993A6D-FDBF-4214-84C2-BFF5C2D1EB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89993A6D-FDBF-4214-84C2-BFF5C2D1EB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B78E76F-FDB3-4275-8770-A65A997A6BB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B78E76F-FDB3-4275-8770-A65A997A6BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B78E76F-FDB3-4275-8770-A65A997A6BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B78E76F-FDB3-4275-8770-A65A997A6BB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{03CCACFC-C118-44EC-A59D-931D9D42BAEA} = {003BB524-9761-46A1-93F3-2AAE8A947877}
@@ -101,5 +153,15 @@ Global
 		{A585719D-1C04-44A0-A7B6-A79DA4D0221D} = {E5610DEA-3E3A-4456-9FB4-BBDA6C9DCC76}
 		{DDC1C7E7-E066-4201-A382-F046C164C9FF} = {E5610DEA-3E3A-4456-9FB4-BBDA6C9DCC76}
 		{A56CF4C8-C840-43FC-A309-1702AA8C8873} = {E5610DEA-3E3A-4456-9FB4-BBDA6C9DCC76}
+		{303693A3-8955-48CE-A87E-824ABCA09153} = {003BB524-9761-46A1-93F3-2AAE8A947877}
+		{279D6E24-7CA1-4098-B1EB-A61F20F1CADC} = {303693A3-8955-48CE-A87E-824ABCA09153}
+		{2C454904-96C2-43C2-AE5E-1875CB955810} = {303693A3-8955-48CE-A87E-824ABCA09153}
+		{84B9F2D2-3AF4-47A5-9381-16C35778DBDA} = {303693A3-8955-48CE-A87E-824ABCA09153}
+		{526CB4A4-CD2D-43F2-86F4-DFDFF8DAEC6A} = {303693A3-8955-48CE-A87E-824ABCA09153}
+		{A7D576D9-8B4A-4C5F-A798-425BD6881906} = {003BB524-9761-46A1-93F3-2AAE8A947877}
+		{89993A6D-FDBF-4214-84C2-BFF5C2D1EB95} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
+		{A189A3F3-CFC8-4CF5-8D14-BCBEE96B1378} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
+		{9B78E76F-FDB3-4275-8770-A65A997A6BB5} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
+		{7CC17EF4-EFB7-4D8C-8C97-4B212A008774} = {A7D576D9-8B4A-4C5F-A798-425BD6881906}
 	EndGlobalSection
 EndGlobal
