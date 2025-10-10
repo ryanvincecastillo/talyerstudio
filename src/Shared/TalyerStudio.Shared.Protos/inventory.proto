@@ -8,8 +8,11 @@ package inventory;
 service InventoryService {
   rpc GetProduct (GetProductRequest) returns (ProductResponse);
   rpc GetProducts (GetProductsRequest) returns (ProductsResponse);
-  rpc CheckStock (CheckStockRequest) returns (CheckStockResponse);
-  rpc ReserveStock (ReserveStockRequest) returns (ReserveStockResponse);
+  rpc GetProductsBySku (GetProductsBySkuRequest) returns (ProductsResponse);
+  rpc GetLowStockProducts (GetLowStockProductsRequest) returns (ProductsResponse);
+  rpc ProductExists (ProductExistsRequest) returns (ProductExistsResponse);
+  rpc CheckStockAvailability (CheckStockAvailabilityRequest) returns (StockAvailabilityResponse);
+  rpc GetStockLevel (GetStockLevelRequest) returns (StockLevelResponse);
 }
 
 message GetProductRequest {
@@ -20,38 +23,60 @@ message GetProductRequest {
 message GetProductsRequest {
   string tenant_id = 1;
   string category_id = 2;
-  string search = 3;
-  int32 skip = 4;
-  int32 take = 5;
+  string product_type = 3;
+  string search = 4;
+  bool is_active = 5;
+  int32 skip = 6;
+  int32 take = 7;
 }
 
-message CheckStockRequest {
-  string product_id = 1;
+message GetProductsBySkuRequest {
+  repeated string skus = 1;
   string tenant_id = 2;
-  string branch_id = 3;
-  int32 required_quantity = 4;
 }
 
-message ReserveStockRequest {
+message GetLowStockProductsRequest {
+  string tenant_id = 1;
+  string branch_id = 2;
+}
+
+message ProductExistsRequest {
   string product_id = 1;
   string tenant_id = 2;
-  string branch_id = 3;
-  int32 quantity = 4;
-  string reference_type = 5;
-  string reference_id = 6;
+}
+
+message CheckStockAvailabilityRequest {
+  string product_id = 1;
+  string branch_id = 2;
+  int32 required_quantity = 3;
+  string tenant_id = 4;
+}
+
+message GetStockLevelRequest {
+  string product_id = 1;
+  string branch_id = 2;
+  string tenant_id = 3;
 }
 
 message ProductResponse {
   string id = 1;
   string tenant_id = 2;
-  string sku = 3;
-  string name = 4;
-  string description = 5;
+  string name = 3;
+  string description = 4;
+  string sku = 5;
   string category_id = 6;
-  double unit_price = 7;
-  string unit = 8;
-  int32 reorder_level = 9;
-  bool is_active = 10;
+  string category_name = 7;
+  string product_type = 8;
+  double unit_price = 9;
+  double cost_price = 10;
+  string currency = 11;
+  string unit_of_measure = 12;
+  int32 reorder_level = 13;
+  int32 reorder_quantity = 14;
+  bool is_active = 15;
+  string barcode = 16;
+  string brand = 17;
+  string model = 18;
 }
 
 message ProductsResponse {
@@ -59,12 +84,24 @@ message ProductsResponse {
   int32 total_count = 2;
 }
 
-message CheckStockResponse {
-  bool available = 1;
-  int32 available_quantity = 2;
+message ProductExistsResponse {
+  bool exists = 1;
 }
 
-message ReserveStockResponse {
-  bool success = 1;
-  string message = 2;
+message StockAvailabilityResponse {
+  bool available = 1;
+  int32 current_quantity = 2;
+  int32 required_quantity = 3;
+  string product_id = 4;
+  string branch_id = 5;
+}
+
+message StockLevelResponse {
+  string product_id = 1;
+  string branch_id = 2;
+  int32 quantity_on_hand = 3;
+  int32 quantity_reserved = 4;
+  int32 quantity_available = 5;
+  int32 reorder_level = 6;
+  bool is_low_stock = 7;
 }

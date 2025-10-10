@@ -8,7 +8,12 @@ package invoice;
 service InvoiceService {
   rpc GetInvoice (GetInvoiceRequest) returns (InvoiceResponse);
   rpc GetInvoices (GetInvoicesRequest) returns (InvoicesResponse);
+  rpc GetInvoiceByNumber (GetInvoiceByNumberRequest) returns (InvoiceResponse);
   rpc GetInvoicesByCustomer (GetInvoicesByCustomerRequest) returns (InvoicesResponse);
+  rpc GetInvoiceByJobOrder (GetInvoiceByJobOrderRequest) returns (InvoiceResponse);
+  rpc InvoiceExists (InvoiceExistsRequest) returns (InvoiceExistsResponse);
+  rpc GetInvoiceStatus (GetInvoiceStatusRequest) returns (InvoiceStatusResponse);
+  rpc GetPaymentsByInvoice (GetPaymentsByInvoiceRequest) returns (PaymentsResponse);
 }
 
 message GetInvoiceRequest {
@@ -19,8 +24,16 @@ message GetInvoiceRequest {
 message GetInvoicesRequest {
   string tenant_id = 1;
   string status = 2;
-  int32 skip = 3;
-  int32 take = 4;
+  string customer_id = 3;
+  string start_date = 4;
+  string end_date = 5;
+  int32 skip = 6;
+  int32 take = 7;
+}
+
+message GetInvoiceByNumberRequest {
+  string invoice_number = 1;
+  string tenant_id = 2;
 }
 
 message GetInvoicesByCustomerRequest {
@@ -28,21 +41,77 @@ message GetInvoicesByCustomerRequest {
   string tenant_id = 2;
 }
 
+message GetInvoiceByJobOrderRequest {
+  string job_order_id = 1;
+  string tenant_id = 2;
+}
+
+message InvoiceExistsRequest {
+  string invoice_id = 1;
+  string tenant_id = 2;
+}
+
+message GetInvoiceStatusRequest {
+  string invoice_id = 1;
+  string tenant_id = 2;
+}
+
+message GetPaymentsByInvoiceRequest {
+  string invoice_id = 1;
+  string tenant_id = 2;
+}
+
 message InvoiceResponse {
   string id = 1;
   string invoice_number = 2;
   string tenant_id = 3;
-  string customer_id = 4;
-  string job_order_id = 5;
-  string status = 6;
+  string branch_id = 4;
+  string customer_id = 5;
+  string job_order_id = 6;
   double subtotal = 7;
   double tax_amount = 8;
   double discount_amount = 9;
   double total_amount = 10;
-  string due_date = 11;
+  double amount_paid = 11;
+  double balance = 12;
+  string status = 13;
+  string invoice_date = 14;
+  string due_date = 15;
+  string paid_date = 16;
+  string notes = 17;
+  string terms = 18;
+  string created_at = 19;
 }
 
 message InvoicesResponse {
   repeated InvoiceResponse invoices = 1;
   int32 total_count = 2;
+}
+
+message InvoiceExistsResponse {
+  bool exists = 1;
+}
+
+message InvoiceStatusResponse {
+  string invoice_id = 1;
+  string status = 2;
+  double balance = 3;
+  string updated_at = 4;
+}
+
+message PaymentResponse {
+  string id = 1;
+  string invoice_id = 2;
+  double amount = 3;
+  string payment_method = 4;
+  string payment_date = 5;
+  string reference_number = 6;
+  string notes = 7;
+  string created_at = 8;
+}
+
+message PaymentsResponse {
+  repeated PaymentResponse payments = 1;
+  int32 total_count = 2;
+  double total_amount_paid = 3;
 }

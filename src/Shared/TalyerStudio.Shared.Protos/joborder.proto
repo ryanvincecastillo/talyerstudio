@@ -10,6 +10,8 @@ service JobOrderService {
   rpc GetJobOrders (GetJobOrdersRequest) returns (JobOrdersResponse);
   rpc GetJobOrdersByCustomer (GetJobOrdersByCustomerRequest) returns (JobOrdersResponse);
   rpc GetJobOrdersByVehicle (GetJobOrdersByVehicleRequest) returns (JobOrdersResponse);
+  rpc JobOrderExists (JobOrderExistsRequest) returns (JobOrderExistsResponse);
+  rpc GetJobOrderStatus (GetJobOrderStatusRequest) returns (JobOrderStatusResponse);
 }
 
 message GetJobOrderRequest {
@@ -20,8 +22,10 @@ message GetJobOrderRequest {
 message GetJobOrdersRequest {
   string tenant_id = 1;
   string status = 2;
-  int32 skip = 3;
-  int32 take = 4;
+  string customer_id = 3;
+  string vehicle_id = 4;
+  int32 skip = 5;
+  int32 take = 6;
 }
 
 message GetJobOrdersByCustomerRequest {
@@ -34,21 +38,50 @@ message GetJobOrdersByVehicleRequest {
   string tenant_id = 2;
 }
 
+message JobOrderExistsRequest {
+  string job_order_id = 1;
+  string tenant_id = 2;
+}
+
+message GetJobOrderStatusRequest {
+  string job_order_id = 1;
+  string tenant_id = 2;
+}
+
 message JobOrderResponse {
   string id = 1;
   string job_order_number = 2;
   string tenant_id = 3;
-  string customer_id = 4;
-  string vehicle_id = 5;
-  string status = 6;
-  string priority = 7;
-  int32 odometer_reading = 8;
-  string customer_complaints = 9;
-  double total_amount = 10;
-  double grand_total = 11;
+  string branch_id = 4;
+  string customer_id = 5;
+  string vehicle_id = 6;
+  string status = 7;
+  string priority = 8;
+  int32 odometer_reading = 9;
+  string customer_complaints = 10;
+  string inspection_notes = 11;
+  repeated string assigned_mechanic_ids = 12;
+  string start_time = 13;
+  string end_time = 14;
+  string estimated_completion_time = 15;
+  double total_amount = 16;
+  double discount_amount = 17;
+  double tax_amount = 18;
+  double grand_total = 19;
+  string created_at = 20;
 }
 
 message JobOrdersResponse {
   repeated JobOrderResponse job_orders = 1;
   int32 total_count = 2;
+}
+
+message JobOrderExistsResponse {
+  bool exists = 1;
+}
+
+message JobOrderStatusResponse {
+  string job_order_id = 1;
+  string status = 2;
+  string updated_at = 3;
 }

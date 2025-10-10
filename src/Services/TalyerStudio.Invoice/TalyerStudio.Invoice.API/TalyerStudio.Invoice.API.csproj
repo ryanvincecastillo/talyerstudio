@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TalyerStudio.Invoice.Application\TalyerStudio.Invoice.Application.csproj" />
     <ProjectReference Include="..\TalyerStudio.Invoice.Infrastructure\TalyerStudio.Invoice.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Shared\TalyerStudio.Shared.Protos\TalyerStudio.Shared.Protos.csproj" />
   </ItemGroup>
 
 </Project>

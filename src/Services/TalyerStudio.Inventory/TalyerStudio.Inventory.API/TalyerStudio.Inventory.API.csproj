@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TalyerStudio.Inventory.Application\TalyerStudio.Inventory.Application.csproj" />
     <ProjectReference Include="..\TalyerStudio.Inventory.Infrastructure\TalyerStudio.Inventory.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Shared\TalyerStudio.Shared.Protos\TalyerStudio.Shared.Protos.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TalyerStudio.JobOrder.API.Services;
 using TalyerStudio.JobOrder.Application.Interfaces;
 using TalyerStudio.JobOrder.Application.Services;
 using TalyerStudio.JobOrder.Infrastructure.Data;
@@ -13,6 +14,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "TalyerStudio JobOrder API", Version = "v1" });
 });
+
+// Add gRPC
+builder.Services.AddGrpc();
 
 // Database
 builder.Services.AddDbContext<JobOrderDbContext>(options =>
@@ -45,5 +49,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
+
+// Map gRPC service
+app.MapGrpcService<JobOrderGrpcService>();
 
 app.Run();

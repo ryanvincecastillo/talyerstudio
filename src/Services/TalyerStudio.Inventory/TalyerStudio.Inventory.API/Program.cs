@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TalyerStudio.Inventory.API.Services;
 using TalyerStudio.Inventory.Application.Interfaces;
 using TalyerStudio.Inventory.Application.Services;
 using TalyerStudio.Inventory.Infrastructure.Data;
@@ -13,6 +14,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "TalyerStudio Inventory API", Version = "v1" });
 });
+
+builder.Services.AddGrpc();
 
 // Database
 builder.Services.AddDbContext<InventoryDbContext>(options =>
@@ -51,5 +54,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
+
+// Map gRPC service
+app.MapGrpcService<InventoryGrpcService>();
 
 app.Run();
