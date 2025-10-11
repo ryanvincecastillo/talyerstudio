@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TalyerStudio.JobOrder.Application.DTOs;
 using TalyerStudio.JobOrder.Application.Interfaces;
@@ -6,6 +7,7 @@ namespace TalyerStudio.JobOrder.API.Controllers;
 
 [ApiController]
 [Route("api/job-orders")]
+[Authorize]
 public class JobOrdersController : ControllerBase
 {
     private readonly IJobOrderService _jobOrderService;

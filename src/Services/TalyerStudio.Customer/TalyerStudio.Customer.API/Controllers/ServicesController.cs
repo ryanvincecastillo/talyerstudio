@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TalyerStudio.Customer.Application.Interfaces;
 using TalyerStudio.Shared.Contracts.Services;
@@ -6,6 +7,7 @@ namespace TalyerStudio.Customer.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ServicesController : ControllerBase
 {
     private readonly IServiceService _serviceService;

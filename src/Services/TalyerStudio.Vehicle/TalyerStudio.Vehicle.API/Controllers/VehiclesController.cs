@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using TalyerStudio.Vehicle.Application.Interfaces;
 using TalyerStudio.Shared.Contracts.Vehicles;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TalyerStudio.Vehicle.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class VehiclesController : ControllerBase
 {
     private readonly IVehicleService _vehicleService;

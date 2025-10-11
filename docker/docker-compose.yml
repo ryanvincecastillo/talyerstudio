@@ -1,6 +1,10 @@
 version: '3.8'
 
 services:
+  # ============================================
+  # INFRASTRUCTURE SERVICES
+  # ============================================
+  
   postgres:
     image: postgres:15-alpine
     container_name: talyerstudio-postgres
@@ -50,6 +54,11 @@ services:
       timeout: 10s
       retries: 5
 
+  # ============================================
+  # MICROSERVICES
+  # ============================================
+
+  # Customer Service - HTTP: 5180, gRPC: 5182
   customer-service:
     build:
       context: ../src
@@ -63,14 +72,20 @@ services:
       - Kestrel__Endpoints__Grpc__Url=http://+:5182
       - Kestrel__Endpoints__Grpc__Protocols=Http2
     ports:
-      - "5180:5180"
-      - "5182:5182"
+      - "5180:5180"  # HTTP/REST
+      - "5182:5182"  # gRPC
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - talyerstudio-network
+    restart: unless-stopped
 
+  # Vehicle Service - HTTP: 5190, gRPC: 5192
   vehicle-service:
     build:
       context: ../src
@@ -78,13 +93,127 @@ services:
     container_name: talyerstudio-vehicle-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5190
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=talyerstudio_vehicles;Username=postgres;Password=postgres
+      - Kestrel__Endpoints__Http__Url=http://+:5190
+      - Kestrel__Endpoints__Http__Protocols=Http1AndHttp2
+      - Kestrel__Endpoints__Grpc__Url=http://+:5192
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
     ports:
-      - "5190:5190"
+      - "5190:5190"  # HTTP/REST
+      - "5192:5192"  # gRPC
     depends_on:
-      - customer-service
+      postgres:
+        condition: service_healthy
+      customer-service:
+        condition: service_started
     networks:
       - talyerstudio-network
+    restart: unless-stopped
+
+  # JobOrder Service - HTTP: 5200, gRPC: 5202
+  joborder-service:
+    build:
+      context: ../src
+      dockerfile: Services/TalyerStudio.JobOrder/TalyerStudio.JobOrder.API/Dockerfile
+    container_name: talyerstudio-joborder-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=talyerstudio_joborders;Username=postgres;Password=postgres
+      - Kestrel__Endpoints__Http__Url=http://+:5200
+      - Kestrel__Endpoints__Http__Protocols=Http1AndHttp2
+      - Kestrel__Endpoints__Grpc__Url=http://+:5202
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
+    ports:
+      - "5200:5200"  # HTTP/REST
+      - "5202:5202"  # gRPC
+    depends_on:
+      postgres:
+        condition: service_healthy
+      customer-service:
+        condition: service_started
+      vehicle-service:
+        condition: service_started
+    networks:
+      - talyerstudio-network
+    restart: unless-stopped
+
+  # Inventory Service - HTTP: 5210, gRPC: 5212
+  inventory-service:
+    build:
+      context: ../src
+      dockerfile: Services/TalyerStudio.Inventory/TalyerStudio.Inventory.API/Dockerfile
+    container_name: talyerstudio-inventory-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=talyerstudio_inventory;Username=postgres;Password=postgres
+      - Kestrel__Endpoints__Http__Url=http://+:5210
+      - Kestrel__Endpoints__Http__Protocols=Http1AndHttp2
+      - Kestrel__Endpoints__Grpc__Url=http://+:5212
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
+    ports:
+      - "5210:5210"  # HTTP/REST
+      - "5212:5212"  # gRPC
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - talyerstudio-network
+    restart: unless-stopped
+
+  # Invoice Service - HTTP: 5220, gRPC: 5222
+  invoice-service:
+    build:
+      context: ../src
+      dockerfile: Services/TalyerStudio.Invoice/TalyerStudio.Invoice.API/Dockerfile
+    container_name: talyerstudio-invoice-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=talyerstudio_invoices;Username=postgres;Password=postgres
+      - Kestrel__Endpoints__Http__Url=http://+:5220
+      - Kestrel__Endpoints__Http__Protocols=Http1AndHttp2
+      - Kestrel__Endpoints__Grpc__Url=http://+:5222
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
+    ports:
+      - "5220:5220"  # HTTP/REST
+      - "5222:5222"  # gRPC
+    depends_on:
+      postgres:
+        condition: service_healthy
+      joborder-service:
+        condition: service_started
+    networks:
+      - talyerstudio-network
+    restart: unless-stopped
+
+  # Auth Service - HTTP: 5230, gRPC: 5232
+  auth-service:
+    build:
+      context: ../src
+      dockerfile: Services/TalyerStudio.Auth/TalyerStudio.Auth.API/Dockerfile
+    container_name: talyerstudio-auth-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=talyerstudio_auth;Username=postgres;Password=postgres
+      - Jwt__Secret=YourSuperSecretKeyThatIsAtLeast32CharactersLongForHS256Algorithm
+      - Jwt__Issuer=TalyerStudio
+      - Jwt__Audience=TalyerStudioUsers
+      - Jwt__ExpiryMinutes=60
+      - Jwt__RefreshTokenExpiryDays=7
+      - Kestrel__Endpoints__Http__Url=http://+:5230
+      - Kestrel__Endpoints__Http__Protocols=Http1AndHttp2
+      - Kestrel__Endpoints__Grpc__Url=http://+:5232
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
+    ports:
+      - "5230:5230"  # HTTP/REST
+      - "5232:5232"  # gRPC
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - talyerstudio-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
